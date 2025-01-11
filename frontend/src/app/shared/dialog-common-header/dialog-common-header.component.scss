@@ -1,0 +1,39 @@
+.dialog_header_text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: 0.14em;
+  font-family: alatsiregular;
+  // color: #F7F9F9;
+  margin-left: 20px;
+}
+
+@media screen and (max-width: 600px) {
+  .dialog_header_text {
+    font-size: 15px;
+    margin-left: 0px;
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 651px) {
+  .dialog_header_text {
+    font-size: 17px;
+    margin-left: 10px;
+  }
+}
+
+// @media screen and (min-width: 651px) and (max-width: 768px) {
+//   .dialog_header_text {
+//     font-size: 20px;
+//     margin-left: 15px;
+//   }
+// }
+
+// @media screen and (min-width: 769px) and (max-width: 991px) {
+//   .dialog_header_text {
+//     font-size: 20px;
+//     margin-left: 15px;
+//   }
+
+// }

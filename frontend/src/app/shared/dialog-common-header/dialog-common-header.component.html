@@ -1,0 +1,72 @@
+<div
+  class="d-flex bd-highlight align-items-center"
+  [ngStyle]="
+    this.apiSharedService.contract_management_global_color.dialog_header
+  "
+  style="height: 50px"
+>
+  <div class="p-2 w-100 bd-highlight">
+    <span
+      class="dialog_header_text"
+      [ngStyle]="
+        this.apiSharedService.contract_management_global_color
+          .dialog_header_text
+      "
+    >
+      {{ this.title }}
+      {{ this.subtitle }}
+    </span>
+  </div>
+  <div class="d-flex align-items-center p-2 flex-shrink-1 bd-highlight">
+    <mat-icon
+      [ngStyle]="
+        this.apiSharedService.contract_management_global_color.icon_btn
+      "
+      *ngIf="this.print_required"
+      matTooltip="Printer"
+      (click)="generatePrintClickEvent()"
+      aria-label="Example icon button with a vertical three dot icon"
+      style="cursor: pointer"
+      class="me-3"
+    >
+      print
+    </mat-icon>
+
+    <mat-icon
+      [ngStyle]="
+        this.apiSharedService.contract_management_global_color.icon_btn
+      "
+      *ngIf="this.search_required"
+      (click)="generateClickEvent()"
+      matTooltip="{{ this.commonTooltipMsg }}"
+      style="cursor: pointer"
+      class="me-3"
+    >
+      search
+    </mat-icon>
+
+    <mat-icon
+      [ngStyle]="
+        this.apiSharedService.contract_management_global_color.icon_btn
+      "
+      class="d-none d-lg-block me-3"
+      cdkDrag
+      cdkDragRootElement=".cdk-overlay-pane"
+      cdkDragHandle
+      matTooltip="Drag"
+      style="cursor: grabbing"
+      >drag_indicator</mat-icon
+    >
+
+    <mat-icon
+      mat-dialog-close
+      [ngStyle]="
+        this.apiSharedService.contract_management_global_color.icon_btn
+      "
+      class="me-2"
+      matTooltip="Close"
+      style="cursor: pointer"
+      >close</mat-icon
+    >
+  </div>
+</div>

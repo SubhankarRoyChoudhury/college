@@ -1,0 +1,27 @@
+<div class="container-fluid main_body">
+  <div class="body">
+    <h1 style="text-align: center; font-family: alatsiregular; color: #1c2771">
+      {{ this.title }}
+    </h1>
+    <div class="d-flex justify-content-between btn_div">
+      <button
+        mat-raised-button
+        class="cancel_btn"
+        mat-dialog-close
+        type="button"
+        (click)="onNoClick()"
+      >
+        Cancel
+      </button>
+
+      <button
+        mat-raised-button
+        class="yes_btn"
+        (click)="onYesClick()"
+        cdkFocusInitial
+      >
+        Yes
+      </button>
+    </div>
+  </div>
+</div>
