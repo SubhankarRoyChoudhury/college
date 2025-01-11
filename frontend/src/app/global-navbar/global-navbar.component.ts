@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 // import { AuthService } from '../auth/auth.service';
 import { DialogConfirmationComponent } from '../shared/dialog-confirmation/dialog-confirmation.component';
+import { AuthService } from '../auth/auth.service';
 // import { AuthService } from '../auth/auth.service';
 export interface UserDetails {
   username: string;
@@ -27,6 +28,7 @@ export interface UserDetails {
 export class GlobalNavbarComponent {
   constructor(
     // private AppService: AapService,
+    public authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
     private ngZone: NgZone // private authService: AuthService
@@ -98,6 +100,9 @@ export class GlobalNavbarComponent {
     //   .catch((reject: any) => {
     //     console.log(reject);
     //   });
+
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   // For Profile Menu
