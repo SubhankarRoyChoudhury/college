@@ -26,9 +26,16 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { RegistrationFormCollegeUserComponent } from './registration-form-college-user/registration-form-college-user.component';
 
 @NgModule({
-  declarations: [AppComponent, GlobalNavbarComponent, HomeComponent, LoginComponent],
+  declarations: [
+    AppComponent,
+    GlobalNavbarComponent,
+    HomeComponent,
+    LoginComponent,
+    RegistrationFormCollegeUserComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

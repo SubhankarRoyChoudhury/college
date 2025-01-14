@@ -1,4 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+@import url("./assets/icons/icon1.css");
+@import url("./assets/icons/icon2.css");
+
+@font-face {
+  font-family: poppinsregular;
+  src: url(./assets/fonts/Poppins-Regular.ttf);
+}
+@font-face {
+  font-family: alatsiregular;
+  src: url(./assets/fonts/Alatsi-Regular.ttf);
+}
+
+textarea {
+  resize: none !important;
+}

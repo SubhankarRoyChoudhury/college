@@ -1,3 +1,21 @@
+.nav-item {
+  padding: 10px;
+}
+.nav-item:hover {
+  background-color: #03a9f4;
+  color: #dfe9f2 !important;
+}
+// .navbar{
+//   padding: 0px !important;
+// }
+
+.nav-link {
+  display: inline !important;
+}
+
+.nav-link:hover {
+  color: #dfe9f2 !important;
+}
 .user_image {
   width: 30px;
   height: 30px;

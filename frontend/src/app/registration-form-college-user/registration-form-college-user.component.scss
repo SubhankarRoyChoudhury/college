@@ -1,0 +1,223 @@
+/* Reseting */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  // font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #d7e0e7;
+  height: calc(100vh - 56px);
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  width: 35%;
+  // margin: 80px auto;
+  padding: 40px 30px 30px 30px;
+  background-color: #ecf0f3;
+  border-radius: 15px;
+  box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+}
+
+.div_field {
+  max-height: 55vh;
+  overflow: auto;
+}
+
+.logo {
+  width: 80px;
+  margin: auto;
+}
+
+.logo img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0px 0px 3px #5f5f5f, 0px 0px 0px 5px #ecf0f3, 8px 8px 15px #a7aaa7,
+    -8px -8px 15px #fff;
+}
+
+.wrapper .name {
+  font-weight: 600;
+  font-size: 1.4rem;
+  letter-spacing: 1.3px;
+  padding-left: 10px;
+  color: #555;
+}
+
+.wrapper .form-field input {
+  width: 100%;
+  display: block;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.2rem;
+  color: #666;
+  padding: 10px 15px 10px 10px;
+  /* border: 1px solid red; */
+}
+
+.wrapper .form-field,
+.form-field-textarea {
+  //   padding-left: 10px;
+  //   margin-bottom: 20px;
+  border-radius: 20px;
+  box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+}
+
+.wrapper .form-field .fas {
+  color: #555;
+}
+
+.form-field {
+  ::ng-deep
+    .mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined)
+    .mat-mdc-form-field-infix {
+    padding-top: 2px;
+    padding-bottom: 0px;
+  }
+}
+
+.form-field-textarea {
+  ::ng-deep
+    .mdc-text-field--no-label:not(.mdc-text-field--textarea)
+    .mat-mdc-form-field-input-control.mdc-text-field__input,
+  .mat-mdc-text-field-wrapper .mat-mdc-form-field-input-control {
+    padding: 0px 10px 0px 10px !important;
+  }
+}
+
+.form-field,
+.form-field-textarea {
+  ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: transparent !important;
+  }
+  ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+  }
+  ::ng-deep .mdc-text-field {
+    padding: 0px;
+  }
+
+  ::ng-deep .mat-mdc-form-field-infix {
+    min-height: 44px !important;
+  }
+
+  ::ng-deep .mat-mdc-form-field-focus-overlay {
+    background-color: transparent !important;
+  }
+  ::ng-deep
+    .mdc-text-field--filled:not(.mdc-text-field--disabled)
+    .mdc-line-ripple::before {
+    border-bottom-color: transparent !important;
+  }
+  ::ng-deep
+    .mdc-text-field--filled:not(.mdc-text-field--disabled)
+    .mdc-line-ripple::after {
+    border-bottom-color: transparent !important;
+  }
+}
+
+.btn_div .btn {
+  box-shadow: none;
+  width: 100%;
+  padding: 0px 40px;
+  height: 40px;
+  background-color: #03a9f4;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+  letter-spacing: 1.3px;
+}
+
+.btn_div .btn:hover {
+  background-color: #039be5;
+}
+
+.wrapper a {
+  text-decoration: none;
+  font-size: 0.8rem;
+  color: #03a9f4;
+}
+
+.wrapper a:hover {
+  color: #039be5;
+}
+
+@media screen and (max-width: 650px) {
+  .wrapper {
+    width: 100%;
+    margin: 15px 20px;
+    padding: 15px 15px 15px 15px;
+  }
+
+  .div_field {
+    height: 36vh;
+  }
+}
+
+@media screen and (min-width: 1451px) and (max-width: 1650px) {
+  .wrapper {
+    width: 40%;
+    margin: 15px 20px;
+    padding: 15px 15px 15px 15px;
+  }
+
+  .div_field {
+    height: 45vh;
+  }
+}
+
+@media screen and (min-width: 1251px) and (max-width: 1450px) {
+  .wrapper {
+    width: 40%;
+    margin: 15px 20px;
+    padding: 15px 15px 15px 15px;
+  }
+
+  .div_field {
+    height: 45vh;
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1250px) {
+  .wrapper {
+    width: 55%;
+    margin: 15px 20px;
+    padding: 15px 15px 15px 15px;
+  }
+
+  .div_field {
+    height: 45vh;
+  }
+}
+
+@media screen and (min-width: 651px) and (max-width: 768px) {
+  .wrapper {
+    width: 80%;
+    margin: 15px 20px;
+    padding: 15px 15px 15px 15px;
+  }
+
+  .div_field {
+    height: 45vh;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 991px) {
+  .wrapper {
+    width: 75%;
+    margin: 15px 20px;
+    padding: 15px 15px 15px 15px;
+  }
+
+  .div_field {
+    height: 45vh;
+  }
+}

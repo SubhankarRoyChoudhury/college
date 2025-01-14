@@ -1,0 +1,103 @@
+<body>
+  <div class="wrapper">
+    <div class="logo">
+      <img src="./assets/images/login_logo.png" alt="" />
+    </div>
+    <div class="text-center mt-4 mb-3 name">College User Registration Form</div>
+    <form [formGroup]="login_form" ngNativeValidate (ngSubmit)="onLogin()">
+      <div class="row m-0 div_field">
+        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="Full name" formControlName="name" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input
+              matInput
+              placeholder="Father Name"
+              formControlName="fatherOrHusband"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="Username" formControlName="username" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input
+              matInput
+              placeholder="Password"
+              [type]="showPasswordOnPress ? 'text' : 'password'"
+              formControlName="password"
+            />
+            <button
+              mat-icon-button
+              type="button"
+              matSuffix
+              (click)="showPasswordOnPress = !showPasswordOnPress"
+            >
+              <mat-icon matSuffix style="color: #03a9f4">{{
+                showPasswordOnPress ? "visibility" : "visibility_off"
+              }}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="ps-1 pe-1 col-12 mb-3">
+          <mat-form-field class="w-100 form-field-textarea">
+            <textarea
+              matInput
+              #myTextarea
+              rows="1"
+              placeholder="Address"
+              formControlName="address"
+              (select)="adjustTextareaHeight(myTextarea)"
+            ></textarea>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="Country" formControlName="country" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="State" formControlName="state" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="City" formControlName="city" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="Pin" formControlName="pin" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="Email" formControlName="email" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="Mobile" formControlName="mobile" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center btn_div">
+        <div>
+          <button type="submit" class="btn mt-3">Sign Up</button>
+        </div>
+      </div>
+    </form>
+    <div class="text-center fs-6 mt-3">
+      Already have account ?
+      <a [routerLink]="['/login']">Sign In</a>
+    </div>
+  </div>
+</body>

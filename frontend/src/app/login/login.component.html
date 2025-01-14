@@ -1,4 +1,4 @@
-<body>
+<!-- <body>
   <div class="main">
     <input type="checkbox" id="chk" aria-hidden="true" />
 
@@ -25,6 +25,50 @@
         <input type="password" name="pswd" placeholder="Password" required="" />
         <button (click)="onLogin()">Login</button>
       </form>
+    </div>
+  </div>
+</body> -->
+
+<body>
+  <div class="wrapper">
+    <div class="logo">
+      <img src="./assets/images/login_logo.png" alt="" />
+    </div>
+    <div class="text-center mt-4 mb-3 name">Sign In</div>
+    <form [formGroup]="login_form" ngNativeValidate (ngSubmit)="onLogin()">
+      <div class="row m-0">
+        <div class="col-12">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="Username" formControlName="username" />
+          </mat-form-field>
+        </div>
+        <div class="col-12">
+          <mat-form-field class="w-100 form-field">
+            <input
+              matInput
+              placeholder="Password"
+              [type]="showPasswordOnPress ? 'text' : 'password'"
+              formControlName="password"
+            />
+            <button
+              mat-icon-button
+              type="button"
+              matSuffix
+              (click)="showPasswordOnPress = !showPasswordOnPress"
+            >
+              <mat-icon matSuffix style="color: #03a9f4">{{
+                showPasswordOnPress ? "visibility" : "visibility_off"
+              }}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <button type="submit" class="btn mt-3">Sign In</button>
+    </form>
+    <div class="text-center fs-6 mt-3">
+      <a href="#">Forget password?</a> or
+      <a [routerLink]="['/registration-college-user']">Sign up</a>
     </div>
   </div>
 </body>
