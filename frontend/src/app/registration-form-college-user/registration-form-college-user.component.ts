@@ -8,6 +8,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-registration-form-college-user',
@@ -20,28 +21,40 @@ export class RegistrationFormCollegeUserComponent
   @ViewChild('myTextarea') myTextarea!: ElementRef<HTMLTextAreaElement>;
   public showPasswordOnPress: boolean = false;
 
-  login_form = new FormGroup({
-    name: new FormControl('', Validators.required),
-    fatherOrHusband: new FormControl('', Validators.required),
-    username: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-    address: new FormControl('', Validators.required),
-    country: new FormControl('', Validators.required),
-    state: new FormControl('', Validators.required),
-    city: new FormControl('', Validators.required),
-    pin: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.required),
-    mobile: new FormControl('', Validators.required),
+  regis_form = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    fatherOrHusband: new FormControl('', [Validators.required]),
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+    ]),
+    address: new FormControl('', [Validators.required]),
+    gender: new FormControl('', [Validators.required]),
+    country: new FormControl('', [Validators.required]),
+    state: new FormControl('', [Validators.required]),
+    city: new FormControl('', [Validators.required]),
+    pin: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^\d{6}$/),
+    ]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    mobile: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[0-9 +]*'),
+    ]),
   });
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private AppService: AppService
+  ) {}
 
   ngOnInit(): void {}
 
-  onLogin() {
-    console.log(this.login_form.value);
-    this.authService.login();
-    this.router.navigate(['/home']); // Redirect to the home page or another page
+  onRegister() {
+    console.log(this.regis_form.value);
   }
 
   ngAfterViewChecked(): void {

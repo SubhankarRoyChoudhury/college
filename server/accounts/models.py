@@ -52,6 +52,7 @@ class CollegeUser(models.Model):
         max_length=30, unique=True, null=False, default="")
     address = models.CharField(
         max_length=100, unique=False, default=None, null=True, blank=True)    
+    gender = models.CharField(max_length=10, null=True, default=None, blank=True)
     country = models.CharField(max_length=100, null=True, default=None, blank=True)    
     state = models.CharField(max_length=50, null=True, default=None, blank=True)    
     city = models.CharField(max_length=50, null=True, default=None, blank=True)

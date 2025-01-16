@@ -4,14 +4,14 @@
       <img src="./assets/images/login_logo.png" alt="" />
     </div>
     <div class="text-center mt-4 mb-3 name">College User Registration Form</div>
-    <form [formGroup]="login_form" ngNativeValidate (ngSubmit)="onLogin()">
+    <form [formGroup]="regis_form" ngNativeValidate (ngSubmit)="onRegister()">
       <div class="row m-0 div_field">
-        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field">
             <input matInput placeholder="Full name" formControlName="name" />
           </mat-form-field>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field">
             <input
               matInput
@@ -20,12 +20,12 @@
             />
           </mat-form-field>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field">
             <input matInput placeholder="Username" formControlName="username" />
           </mat-form-field>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field">
             <input
               matInput
@@ -45,7 +45,7 @@
             </button>
           </mat-form-field>
         </div>
-        <div class="ps-1 pe-1 col-12 mb-3">
+        <div class="col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field-textarea">
             <textarea
               matInput
@@ -57,35 +57,75 @@
             ></textarea>
           </mat-form-field>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field">
             <input matInput placeholder="Country" formControlName="country" />
           </mat-form-field>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field">
             <input matInput placeholder="State" formControlName="state" />
           </mat-form-field>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field">
             <input matInput placeholder="City" formControlName="city" />
           </mat-form-field>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field">
             <input matInput placeholder="Pin" formControlName="pin" />
           </mat-form-field>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field">
-            <input matInput placeholder="Email" formControlName="email" />
+            <input
+              matInput
+              placeholder="Email"
+              type="email"
+              formControlName="email"
+            />
           </mat-form-field>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 ps-1 pe-1 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field">
-            <input matInput placeholder="Mobile" formControlName="mobile" />
+            <input
+              matInput
+              placeholder="Mobile"
+              type="number"
+              formControlName="mobile"
+            />
+            <mat-icon
+              matSuffix
+              style="color: rgb(5, 173, 5)"
+              *ngIf="
+                regis_form.controls.mobile.valid &&
+                (regis_form.controls.mobile?.value?.toString())!.length == 10
+              "
+              >check_circle</mat-icon
+            >
+            <mat-icon
+              matSuffix
+              style="color: rgb(218, 87, 87)"
+              *ngIf="
+                regis_form.controls.mobile.valid &&
+                (regis_form.controls.mobile?.value?.toString())!.length != 10
+              "
+              >cancel</mat-icon
+            >
           </mat-form-field>
+        </div>
+        <div class="col-12 ps-1 pe-1 mb-3">
+          <p>Gender :</p>
+          <mat-radio-group
+            class=""
+            aria-label="Select an option"
+            formControlName="gender"
+          >
+            <mat-radio-button value="male">Male</mat-radio-button>
+            <mat-radio-button value="female">Female</mat-radio-button>
+            <mat-radio-button value="other">Other</mat-radio-button>
+          </mat-radio-group>
         </div>
       </div>
 
