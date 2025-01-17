@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'accounts',
+    'college_management'
 
 ]
 
