@@ -1,13 +1,9 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import CollegeUser, College
+from college_management.models import College
+from .models import CollegeUser
 
 User = get_user_model()
-
-class CollegeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = College
-        fields = '__all__'  # Include all fields from the College model
 
 # <!-- In Account Serializers Create User into Authentication User Table and also CollegeUser Table -->
 
@@ -16,7 +12,7 @@ class CollegeUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CollegeUser
-        fields = ['college', 'name', 'fatherOrHusband', 'aliasName', 'username', 'address', 'country', 'state', 'city', 'pin', 'email', 'mobile', 'image_url', 'attachment_id', 'is_admin', 'is_active', 'is_staff', 'is_owner', 'is_manager', 'is_assistant', 'password']
+        fields = ['college', 'first_name', 'last_name', 'fatherOrHusband', 'aliasName', 'username', 'gender', 'address', 'country', 'state', 'city', 'pin', 'email', 'mobile', 'image_url', 'attachment_id', 'is_admin', 'is_active', 'is_staff', 'is_owner', 'is_manager', 'is_assistant', 'password']
 
     def validate_username(self, value):
         # Ensure the username is unique across the User model
@@ -26,6 +22,8 @@ class CollegeUserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Extract and pop fields
+        first_name = validated_data.pop('first_name')
+        last_name = validated_data.pop('last_name')
         username = validated_data.pop('username')
         password = validated_data.pop('password')
         email = validated_data.pop('email')
@@ -38,6 +36,8 @@ class CollegeUserSerializer(serializers.ModelSerializer):
         if not user:
             # Create the User instance
             user = user_model.objects.create_user(
+                first_name=first_name,
+                last_name=last_name,
                 username=username,
                 password=password,
                 email=email,
@@ -52,11 +52,13 @@ class CollegeUserSerializer(serializers.ModelSerializer):
         # Create the CollegeUser instance without the `user` argument
         college_user = CollegeUser.objects.create(
             college=college,  # Add the college reference
-            name=validated_data.get('name'),
+            first_name=first_name,
+            last_name=last_name,
             fatherOrHusband=validated_data.get('fatherOrHusband'),
             aliasName=validated_data.get('aliasName'),
             username=username,
             email=email,
+            gender=validated_data.get('gender'),
             address=validated_data.get('address'),
             country=validated_data.get('country'),
             state=validated_data.get('state'),

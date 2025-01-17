@@ -1,0 +1,143 @@
+<body>
+  <div class="wrapper">
+    <div class="logo">
+      <img src="./assets/images/login_logo.png" alt="" />
+    </div>
+    <div class="text-center mt-4 mb-3 name">College User Registration Form</div>
+    <form [formGroup]="regis_form" ngNativeValidate (ngSubmit)="onRegister()">
+      <div class="row m-0 div_field">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="Full name" formControlName="name" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input
+              matInput
+              placeholder="Father Name"
+              formControlName="fatherOrHusband"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="Username" formControlName="username" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input
+              matInput
+              placeholder="Password"
+              [type]="showPasswordOnPress ? 'text' : 'password'"
+              formControlName="password"
+            />
+            <button
+              mat-icon-button
+              type="button"
+              matSuffix
+              (click)="showPasswordOnPress = !showPasswordOnPress"
+            >
+              <mat-icon matSuffix style="color: #03a9f4">{{
+                showPasswordOnPress ? "visibility" : "visibility_off"
+              }}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field-textarea">
+            <textarea
+              matInput
+              #myTextarea
+              rows="1"
+              placeholder="Address"
+              formControlName="address"
+              (select)="adjustTextareaHeight(myTextarea)"
+            ></textarea>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="Country" formControlName="country" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="State" formControlName="state" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="City" formControlName="city" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input matInput placeholder="Pin" formControlName="pin" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input
+              matInput
+              placeholder="Email"
+              type="email"
+              formControlName="email"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input
+              matInput
+              placeholder="Mobile"
+              type="number"
+              formControlName="mobile"
+            />
+            <mat-icon
+              matSuffix
+              style="color: rgb(5, 173, 5)"
+              *ngIf="
+                regis_form.controls.mobile.valid &&
+                (regis_form.controls.mobile?.value?.toString())!.length == 10
+              "
+              >check_circle</mat-icon
+            >
+            <mat-icon
+              matSuffix
+              style="color: rgb(218, 87, 87)"
+              *ngIf="
+                regis_form.controls.mobile.valid &&
+                (regis_form.controls.mobile?.value?.toString())!.length != 10
+              "
+              >cancel</mat-icon
+            >
+          </mat-form-field>
+        </div>
+        <div class="col-12 ps-1 pe-1 mb-3">
+          <p>Gender :</p>
+          <mat-radio-group
+            class=""
+            aria-label="Select an option"
+            formControlName="gender"
+          >
+            <mat-radio-button value="male">Male</mat-radio-button>
+            <mat-radio-button value="female">Female</mat-radio-button>
+            <mat-radio-button value="other">Other</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center btn_div">
+        <div>
+          <button type="submit" class="btn mt-3">Sign Up</button>
+        </div>
+      </div>
+    </form>
+    <div class="text-center fs-6 mt-3">
+      Already have account ?
+      <a [routerLink]="['/login']">Sign In</a>
+    </div>
+  </div>
+</body>
