@@ -17,7 +17,7 @@
         <div
           class="d-flex align-self-center me-2"
           style="cursor: pointer; position: absolute; right: 0px; top: 10px"
-          *ngIf="authService.isLoggedIn"
+          *ngIf="isLoggedIn"
           (click)="toggleProfileMenu($event)"
         >
           <img src="./assets/images/user.png" class="user_image" alt="" />
@@ -40,7 +40,9 @@
             </div>
           </div>
           <div class="d-grid align-items-center justify-content-center mt-2">
-            <p class="profile_name">{{ userDetails?.full_name }}</p>
+            <p class="profile_name">
+              {{ userDetails?.first_name }} {{ userDetails?.last_name }}
+            </p>
           </div>
           <p class="profile_title">
             User Name : <span>{{ userDetails?.username }}</span>
@@ -142,16 +144,16 @@
               </ul>
             </li>
 
-            <li class="nav-item ms-3 me-3" *ngIf="!authService.isLoggedIn">
+            <li class="nav-item ms-3 me-3">
+              <a class="nav-link" href="#">Notice</a>
+            </li>
+            <li class="nav-item ms-3 me-3" *ngIf="!isLoggedIn">
               <a
                 class="nav-link"
                 [routerLink]="['/login']"
                 routerLinkActive="router-link-active"
                 >Login</a
               >
-            </li>
-            <li class="nav-item ms-3 me-3">
-              <a class="nav-link" href="#">Notice</a>
             </li>
           </ul>
         </div>

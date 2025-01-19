@@ -8,7 +8,7 @@ from django.utils import timezone
 # Create your College models here.
 
 class College(models.Model):
-    college_name = models.CharField(
+    name = models.CharField(
         max_length=100, unique=False, null=False, default=None)
     college_id = models.CharField(
         max_length=50, unique=True, null=False, default=None)
@@ -29,11 +29,15 @@ class College(models.Model):
     email = models.EmailField(
         verbose_name="email", max_length=60, unique=False, null=False, default=None)
     registrationDate = models.DateTimeField(default=timezone.now)
-    is_approved = models.BooleanField(default=False)
-    is_approved = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=True)
     active_from = models.DateTimeField(blank=True, null=True, default=None)
     active_upto = models.DateTimeField(blank=True, null=True, default=None)
     test = models.BooleanField(default=False)
+    created_by = models.CharField(
+        max_length=100, null=True, blank=True, default=None)
+    created_on = models.DateTimeField(
+        blank=True, null=True, default=timezone.now)
 
     def __str__(self):
         return f'{self.id},{self.college_id}'

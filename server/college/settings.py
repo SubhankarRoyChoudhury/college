@@ -46,6 +46,7 @@ STATIC_URL = '/api/static/'
 CORS_ORIGIN_ALLOW=True
 
 
+
 CORS_ALLOW_ALL_ORIGINS = True  # Allows all origins (for testing)
 CORS_ALLOW_CREDENTIALS = True
 # 3.
@@ -59,7 +60,7 @@ CSRF_TRUSTED_ORIGINS = [
 SESSION_EXPIRE_AT_BROWSER_CLOSE = os.getenv('SESSION_EXPIRE_AT_BROWSER_CLOSE')
 
 
-
+# AUTH_USER_MODEL = 'accounts.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
