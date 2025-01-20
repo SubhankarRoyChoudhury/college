@@ -8,9 +8,23 @@
       <div class="row m-0 div_field">
         <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field">
-            <input matInput placeholder="Full name" formControlName="name" />
+            <input
+              matInput
+              placeholder="First Name"
+              formControlName="first_name"
+            />
           </mat-form-field>
         </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input
+              matInput
+              placeholder="Last Name"
+              formControlName="last_name"
+            />
+          </mat-form-field>
+        </div>
+
         <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field">
             <input
@@ -22,7 +36,70 @@
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
           <mat-form-field class="w-100 form-field">
+            <input
+              type="text"
+              placeholder="Search & Select College"
+              matInput
+              formControlName="college"
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete
+              autoActiveFirstOption
+              #auto="matAutocomplete"
+              [displayWith]="getCollegeName.bind(this)"
+            >
+              <mat-option
+                *ngFor="let college of collegeOptions | async"
+                [value]="college.id"
+                (onSelectionChange)="onCollegeSelected(college)"
+              >
+                {{ college.name }}
+              </mat-option>
+            </mat-autocomplete>
+            <button
+              mat-icon-button
+              matSuffix
+              *ngIf="regis_form.controls.college.value"
+              (click)="clearCollege()"
+              style="width: 32px; height: 32px; margin-right: 2px"
+              aria-label="Clear"
+            >
+              <mat-icon
+                style="
+                  color: #03a9f4;
+                  position: absolute;
+                  left: 4px;
+                  top: 7px;
+                  font-size: 20px;
+                "
+                >close</mat-icon
+              >
+            </button>
+          </mat-form-field>
+        </div>
+        <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field">
+            <input
+              matInput
+              placeholder="Department"
+              formControlName="department"
+            />
+          </mat-form-field>
+        </div> -->
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
+          <mat-form-field class="w-100 form-field">
             <input matInput placeholder="Username" formControlName="username" />
+            <span
+              matSuffix
+              *ngIf="selectedCollegeId"
+              style="
+                margin-right: 10px;
+                color: #666;
+                font-size: 18px;
+                font-weight: 600;
+              "
+              >{{ selectedCollegeId }}</span
+            >
           </mat-form-field>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-12 ps-1 pe-1 mb-3">
@@ -35,13 +112,24 @@
             />
             <button
               mat-icon-button
+              style="width: 32px; height: 32px; margin-right: 2px"
               type="button"
               matSuffix
               (click)="showPasswordOnPress = !showPasswordOnPress"
             >
-              <mat-icon matSuffix style="color: #03a9f4">{{
-                showPasswordOnPress ? "visibility" : "visibility_off"
-              }}</mat-icon>
+              <mat-icon
+                matSuffix
+                style="
+                  color: #03a9f4;
+                  position: absolute;
+                  left: 5px;
+                  top: 6px;
+                  font-size: 20px;
+                "
+                >{{
+                  showPasswordOnPress ? "visibility" : "visibility_off"
+                }}</mat-icon
+              >
             </button>
           </mat-form-field>
         </div>
@@ -97,7 +185,11 @@
             />
             <mat-icon
               matSuffix
-              style="color: rgb(5, 173, 5)"
+              style="
+                color: rgb(5, 173, 5);
+                font-size: 20px;
+                padding: 5px !important;
+              "
               *ngIf="
                 regis_form.controls.mobile.valid &&
                 (regis_form.controls.mobile?.value?.toString())!.length == 10
@@ -106,7 +198,7 @@
             >
             <mat-icon
               matSuffix
-              style="color: rgb(218, 87, 87)"
+              style="color: rgb(218, 87, 87); padding: 5px !important"
               *ngIf="
                 regis_form.controls.mobile.valid &&
                 (regis_form.controls.mobile?.value?.toString())!.length != 10
@@ -131,7 +223,7 @@
 
       <div class="d-flex justify-content-center btn_div">
         <div>
-          <button type="submit" class="btn mt-3">Sign Up</button>
+          <button class="btn mt-3">Sign Up</button>
         </div>
       </div>
     </form>

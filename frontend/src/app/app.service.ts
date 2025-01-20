@@ -1,11 +1,36 @@
 import { Injectable } from '@angular/core';
 import { SharedService } from './shared/shared.service';
+import { environment } from '../environments/environments';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppService {
-  constructor(private apiToasterSharedService: SharedService) {}
+  private baseUrl = environment.base_url;
+  private httpHeaders = new HttpHeaders({
+    'Content-Type': 'application/x-www-form-urlencoded',
+  });
+  private httpHeadersencoded = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
+  constructor(
+    private apiToasterSharedService: SharedService,
+    private http: HttpClient
+  ) {}
+
+  access_token: string = '';
+
+  ngOnInit(): void {
+    this.get_accesstoken();
+  }
+
+  get_accesstoken(): void {
+    const token = localStorage.getItem('access_token'); // Retrieve the token from localStorage
+    this.access_token = token ? token : ''; // Set access_token or default to an empty string
+    console.log(this.access_token);
+  }
 
   async openToaster(
     msg: string,
@@ -24,5 +49,19 @@ export class AppService {
         console.error('Dialog error:', error);
         return false;
       });
+  }
+
+  getColleges(): Observable<any> {
+    const access_token = localStorage.getItem('access_token');
+    const headers = this.httpHeadersencoded.set(
+      'Authorization',
+      `Bearer ${access_token}`
+    ); // Set Authorization header with Bearer token
+    if (access_token) {
+      this.access_token = access_token;
+    }
+    return this.http.get(this.baseUrl + 'college_management/colleges/', {
+      headers,
+    });
   }
 }

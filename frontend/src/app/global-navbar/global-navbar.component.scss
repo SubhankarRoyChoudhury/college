@@ -129,18 +129,19 @@ p {
 
 .profile_name {
   color: #1c2771;
-  text-align: center;
+  // text-align: center;
   font-family: alatsiregular;
-  font-size: 20px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  margin: 0px;
 }
 
 .profile_title {
   color: #1c2771;
   font-family: alatsiregular;
-  font-size: 15px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -151,6 +152,8 @@ p {
   position: absolute;
   right: 8px;
   top: 8px;
+  float: right;
+  // margin: 10px 10px 0px 0px;
   width: 30px;
   height: 30px;
   background-color: #9bbfe2;
