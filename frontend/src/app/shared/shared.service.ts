@@ -41,8 +41,8 @@ export class SharedService {
       hasBackdrop: true,
       data: {
         reason: msg,
-        title1: 'Indian Oil ',
-        title2: 'E R P L',
+        title1: 'College ',
+        title2: 'Planner',
         status: status,
         show_cancel_btn: show_cancel_btn,
       },

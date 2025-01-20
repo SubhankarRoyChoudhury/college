@@ -52,7 +52,10 @@ class CollegeUserCreateView(APIView):
                     serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             except Exception as e:
-                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+                if 'username' in str(e).lower():  # Check if the error is related to username
+                    return Response({'error': 'Username already exists. Please choose a different username.'}, 
+                                    status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

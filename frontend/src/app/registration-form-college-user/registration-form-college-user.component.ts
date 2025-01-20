@@ -17,6 +17,7 @@ interface COLLEGE {
   id: number;
   college_id: string;
   name: string;
+  username: string;
 }
 
 @Component({
@@ -32,6 +33,7 @@ export class RegistrationFormCollegeUserComponent
 
   colleges: COLLEGE[] = [];
   collegeOptions: Observable<any[]> = new Observable();
+  selectedCollegeId: string | null = null;
 
   regis_form = new FormGroup({
     first_name: new FormControl('', [Validators.required]),
@@ -70,44 +72,23 @@ export class RegistrationFormCollegeUserComponent
     console.log('access_token===>', this.access_token);
   }
 
-  private _filter(value: any): COLLEGE[] {
-    // const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
-
-    const filterValue = value;
-    return this.colleges.filter((college) =>
-      college.name.toLowerCase().includes(filterValue.toString().toLowerCase())
-    );
-  }
-
-  getCollegeName(clg_id: number | null): string {
-    // if (this.colleges.length) {
-    //   let name = this.colleges.find((college) => college.id === clg_id)!.name;
-    //   return name;
-    // } else {
-    //   return '';
-    // }
-
-    if (clg_id === null || clg_id === undefined) {
-      return ''; // Return an empty string if the value is invalid
-    }
-
-    const college = this.colleges.find((college) => college.id === clg_id);
-    return college ? college.name : ''; // Return the name if found, otherwise an empty string
-  }
-
   onRegister() {
     console.log(this.regis_form.value);
 
     console.log(this.regis_form.valid);
 
     if (this.regis_form.valid) {
+      const usernameWithCollegeId =
+        this.regis_form.controls.username.value +
+        (this.selectedCollegeId ? `_${this.selectedCollegeId}` : '');
+
       const data = {
         first_name: this.regis_form.controls.first_name.value,
         last_name: this.regis_form.controls.last_name.value,
         fatherOrHusband: this.regis_form.controls.fatherOrHusband.value,
         aliasName: '',
         college: this.regis_form.controls.college.value,
-        username: this.regis_form.controls.username.value,
+        username: usernameWithCollegeId,
         password: this.regis_form.controls.password.value,
         address: this.regis_form.controls.address.value,
         country: this.regis_form.controls.country.value,
@@ -127,6 +108,10 @@ export class RegistrationFormCollegeUserComponent
         is_admin: 'False',
       };
 
+      console.log('data ======>', data);
+
+      // return;
+
       this.authService.addCollegeUser(data).subscribe(
         (response) => {
           if (response) {
@@ -144,6 +129,19 @@ export class RegistrationFormCollegeUserComponent
         },
         (error) => {
           console.error('Registration failed:', error);
+
+          // Check if the error message is related to username already existing
+          let errorMessage = '';
+
+          // Show the error message if username already exists
+          if (errorMessage) {
+            this.AppService.openToaster(errorMessage, false);
+          } else {
+            this.AppService.openToaster(
+              'Username already exists. Please choose a different username.',
+              false
+            );
+          }
         }
       );
     }
@@ -175,5 +173,32 @@ export class RegistrationFormCollegeUserComponent
         this.AppService.openToaster('Data Not Found', false);
       }
     );
+  }
+
+  private _filter(value: any): COLLEGE[] {
+    // const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
+
+    const filterValue = value;
+    return this.colleges.filter((college) =>
+      college.name.toLowerCase().includes(filterValue.toString().toLowerCase())
+    );
+  }
+
+  getCollegeName(clg_id: number | null): string {
+    if (clg_id === null || !this.colleges || this.colleges.length === 0) {
+      return ''; // Return empty string if the id is null or no colleges are available
+    }
+    const college = this.colleges.find((college) => college.id === clg_id);
+    return college ? college.name : '';
+  }
+
+  onCollegeSelected(college: COLLEGE): void {
+    this.selectedCollegeId = college.college_id; // Update the matSuffix with the college_id
+    // this.regis_form.controls.username.setValue(college.username || ''); // Optionally set username
+  }
+
+  clearCollege(): void {
+    this.regis_form.controls.college.setValue(null);
+    this.selectedCollegeId = null;
   }
 }
