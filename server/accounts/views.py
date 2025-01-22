@@ -151,7 +151,7 @@ def update_user(request, user_id):
 # THIS CODE USE FOR UPDATE THE User MODEL AND CollegeUser MODEL AT SAME TIME UPDATE USER MODEL AND COLLEGEUSER MODEL END
 
 
-class CollegeUserCreateView(APIView):
+class CollegeUserCreateAndGetView(APIView):
     permission_classes=[AllowAny]
     def post(self, request, *args, **kwargs):
         serializer = CollegeUserSerializer(data=request.data)
@@ -169,6 +169,20 @@ class CollegeUserCreateView(APIView):
                 return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self, request, *args, **kwargs):
+        """Retrieve all CollegeUsers."""
+        college_users = CollegeUser.objects.all()
+        serializer = CollegeUserSerializer(college_users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+# class CollegeUserListView(APIView):
+#     permission_classes=[AllowAny]
+#     def get(self, request, *args, **kwargs):
+#         """Retrieve all CollegeUsers."""
+#         college_users = CollegeUser.objects.all()
+#         serializer = CollegeUserSerializer(college_users, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
     
     
 @api_view(['GET'])

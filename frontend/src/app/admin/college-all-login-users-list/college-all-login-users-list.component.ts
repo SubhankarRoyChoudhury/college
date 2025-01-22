@@ -22,7 +22,7 @@ interface User {
 export class CollegeAllLoginUsersListComponent {
   users: User[] = [];
 
-  errorMessage: string | null = null;
+  // errorMessage: string | null = null;
 
   constructor(private appService: AppService) {}
 

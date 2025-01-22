@@ -73,4 +73,8 @@ export class AppService {
   getCollegeLoginUsers(): Observable<any> {
     return this.http.get(this.baseUrl + 'accounts/users/');
   }
+
+  getCollegeUsers(): Observable<any> {
+    return this.http.get(this.baseUrl + 'accounts/college-user/');
+  }
 }
