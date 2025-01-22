@@ -29,7 +29,7 @@ export class GlobalNavbarComponent implements OnInit {
   userDetails: UserDetails | null = null;
   isProfileMenuVisible = false;
   isLoggedIn = false;
-
+  isSuperUser: boolean = false;
   constructor(
     private AppService: AppService,
     public authService: AuthService,
@@ -41,6 +41,11 @@ export class GlobalNavbarComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn = !this.authService.isLoggedIn(); // Track the login status
     this.getUserDetails();
+
+    // Retrieve the 'is_superuser' flag from localStorage for admin START
+    const isSuperUser = localStorage.getItem('is_superuser');
+    this.isSuperUser = isSuperUser === 'true'; // Convert string to boolean
+    // Retrieve the 'is_superuser' flag from localStorage for admin END
   }
 
   toggleNavbar() {

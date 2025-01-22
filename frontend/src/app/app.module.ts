@@ -28,8 +28,6 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationFormCollegeUserComponent } from './registration-form-college-user/registration-form-college-user.component';
 import { UploadComponent } from './upload/upload.component';
-import { AdminComponent } from './admin/admin.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +36,6 @@ import { AdminComponent } from './admin/admin.component';
     LoginComponent,
     RegistrationFormCollegeUserComponent,
     UploadComponent,
-    AdminComponent,
   ],
   imports: [
     BrowserModule,

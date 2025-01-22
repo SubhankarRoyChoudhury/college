@@ -3,6 +3,11 @@ import { SharedService } from './shared/shared.service';
 import { environment } from '../environments/environments';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+// interface User {
+//   id: number;
+//   username: string;
+//   email: string;
+// }
 
 @Injectable({
   providedIn: 'root',
@@ -63,5 +68,9 @@ export class AppService {
     return this.http.get(this.baseUrl + 'college_management/colleges/', {
       headers,
     });
+  }
+
+  getCollegeLoginUsers(): Observable<any> {
+    return this.http.get(this.baseUrl + 'accounts/users/');
   }
 }

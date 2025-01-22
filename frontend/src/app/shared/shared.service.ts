@@ -42,7 +42,7 @@ export class SharedService {
       data: {
         reason: msg,
         title1: 'College ',
-        title2: 'Planner',
+        title2: 'Management',
         status: status,
         show_cancel_btn: show_cancel_btn,
       },

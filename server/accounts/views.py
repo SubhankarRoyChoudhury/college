@@ -12,9 +12,15 @@ from .serializers import  CollegeUserSerializer
 from .models import CollegeUser
 from oauth2_provider.views import TokenView
 from django.http import JsonResponse
-from django.contrib.auth.models import User
 import json
+from django.forms.models import model_to_dict
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
+from .models import CollegeUser 
+
 # User = get_user_model()
+
+
 
 
 class CustomTokenView(TokenView):
@@ -39,6 +45,111 @@ class CustomTokenView(TokenView):
             return JsonResponse(token_data, status=response.status_code)
 
         return response
+    
+    
+
+
+
+def user_list(request):
+    """Return a list of all users."""
+    # users = get_all_users()
+    users = User.objects.all()
+    data = [model_to_dict(user) for user in users]
+    return JsonResponse(data, safe=False)
+
+def user_detail(request, user_id):
+    """Return details of a specific user."""
+    try:
+        user = User.objects.get(id=user_id)
+        data = model_to_dict(user)
+        return JsonResponse(data)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found"}, status=404)
+    
+    
+# THIS CODE USE FOR ONLY UPDATE THE User MODEL START
+
+# @csrf_exempt
+# def update_user(request, user_id):
+#     """Update details of a specific user."""
+#     if request.method != "PUT":
+#         return JsonResponse({"error": "Method not allowed"}, status=405)
+
+#     try:
+#         user = User.objects.get(id=user_id)
+#     except User.DoesNotExist:
+#         return JsonResponse({"error": "User not found"}, status=404)
+
+#     try:
+#         # Parse the request body and update allowed fields
+#         data = json.loads(request.body)
+#         allowed_fields = {"username", "first_name", "last_name", "email", "is_staff", "is_active", "is_superuser"}
+#         updated_fields = {field: value for field, value in data.items() if field in allowed_fields}
+        
+#         for field, value in updated_fields.items():
+#             setattr(user, field, value)
+        
+#         user.save()
+
+#         return JsonResponse(model_to_dict(user, fields=allowed_fields), safe=False)
+#     except Exception as e:
+#         return JsonResponse({"error": f"Failed to update user: {str(e)}"}, status=400)
+    
+# THIS CODE USE FOR ONLY UPDATE THE User MODEL END
+    
+# THIS CODE USE FOR UPDATE THE User MODEL AND CollegeUser MODEL AT SAME TIME UPDATE USER MODEL AND COLLEGEUSER MODEL START
+
+@csrf_exempt
+def update_user(request, user_id):
+    """Update details of a specific user in both User and CollegeUser models."""
+    if request.method != "PUT":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+
+    try:
+        # Fetch the user from the User model
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found in User model"}, status=404)
+
+    try:
+        # Fetch the corresponding CollegeUser
+        try:
+            college_user = CollegeUser.objects.get(username=user.username)
+        except CollegeUser.DoesNotExist:
+            return JsonResponse({"error": "User not found in CollegeUser model"}, status=404)
+
+        # Parse the request body and update allowed fields
+        data = json.loads(request.body)
+        user_allowed_fields = {"first_name", "last_name", "email", "is_staff", "is_active", "is_superuser"}
+        college_user_allowed_fields = {"is_staff", "is_active", "is_superuser"}
+
+        # Update User fields
+        for field, value in data.items():
+            if field in user_allowed_fields:
+                setattr(user, field, value)
+
+        # Update CollegeUser fields
+        for field, value in data.items():
+            if field in college_user_allowed_fields:
+                setattr(college_user, field, value)
+
+        # Save both models
+        user.save()
+        college_user.save()
+
+        # Prepare the response with updated data
+        updated_user_data = model_to_dict(user, fields=user_allowed_fields)
+        updated_college_user_data = model_to_dict(college_user, fields=college_user_allowed_fields)
+
+        return JsonResponse({
+            "user": updated_user_data,
+            "college_user": updated_college_user_data
+        }, safe=False)
+
+    except Exception as e:
+        return JsonResponse({"error": f"Failed to update user: {str(e)}"}, status=400)
+# THIS CODE USE FOR UPDATE THE User MODEL AND CollegeUser MODEL AT SAME TIME UPDATE USER MODEL AND COLLEGEUSER MODEL END
+
 
 class CollegeUserCreateView(APIView):
     permission_classes=[AllowAny]
