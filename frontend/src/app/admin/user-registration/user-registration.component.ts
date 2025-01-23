@@ -3,8 +3,11 @@ import { AppService } from './../../app.service';
 
 interface CollegeUser {
   id: number;
+  college: number;
+  college_name: number;
   username: string;
   email: string;
+  mobile: string;
   first_name: string;
   last_name: string;
   fatherOrHusband: string;
@@ -17,7 +20,7 @@ interface CollegeUser {
   gender: string;
   department: string;
   address: string;
-  countr: string;
+  country: string;
   state: string;
   city: string;
   pin: string;

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { DialogCollegeRegistrationComponent } from './college-registration/dialog-college-registration/dialog-college-registration.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-admin',
@@ -12,7 +14,11 @@ export class AdminComponent {
   showAddUserButton: boolean = false;
   showAddCollegeButton: boolean = false;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     // this.router.events
@@ -54,5 +60,17 @@ export class AdminComponent {
   }
   openAddCollege() {
     console.log('Add College from here');
+    const dialogRef = this.dialog.open(DialogCollegeRegistrationComponent, {
+      maxWidth: '100vw',
+      panelClass: 'panelClass_clg_register',
+      data: {
+        title: 'College Registration Form',
+        btn_title: 'Submit',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }

@@ -8,7 +8,7 @@ import { ToasterComponent } from './toaster/toaster.component';
 export class SharedService {
   contract_management_global_color = {
     dialog_header: {
-      background: '',
+      background: '#e7ecf7',
       color: '',
     },
     dialog_btn: {
@@ -22,7 +22,7 @@ export class SharedService {
       fontSize: '',
     },
     icon_btn: {
-      color: '#ffffff',
+      color: '#294D7C',
     },
   };
 

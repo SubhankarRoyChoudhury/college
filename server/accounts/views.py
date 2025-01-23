@@ -14,6 +14,7 @@ from oauth2_provider.views import TokenView
 from django.http import JsonResponse
 import json
 from django.forms.models import model_to_dict
+from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from .models import CollegeUser 
@@ -172,10 +173,53 @@ class CollegeUserCreateAndGetView(APIView):
     
     def get(self, request, *args, **kwargs):
         """Retrieve all CollegeUsers."""
-        college_users = CollegeUser.objects.all()
+        college_users = CollegeUser.objects.select_related('college').all()  # Optimize query
         serializer = CollegeUserSerializer(college_users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+    
+class CollegeUserDetailView(APIView):
+    permission_classes=[AllowAny]
+    def get(self, request, id, *args, **kwargs):
+        """Retrieve a specific CollegeUser by id."""
+        college_user = get_object_or_404(CollegeUser.objects.select_related('college'), id=id)  # Optimize query with select_related
+        serializer = CollegeUserSerializer(college_user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put(self, request, id, *args, **kwargs):
+        """Update a specific CollegeUser by id."""
+        try:
+            # Retrieve the CollegeUser instance
+            college_user = get_object_or_404(CollegeUser.objects.select_related('college'), id=id)
+
+            # If the username is the same as the current one, remove it from validation
+            if request.data.get('username') == college_user.username:
+                request.data.pop('username', None)  # Remove `username` from the data to bypass validation
+
+            # Partially update the CollegeUser instance
+            serializer = CollegeUserSerializer(college_user, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                # Save the CollegeUser updates
+                serializer.save()
+
+                # Update the corresponding User model fields
+                user_model = get_user_model()
+                user = user_model.objects.filter(username=college_user.username).first()
+                if user:
+                    user.is_staff = request.data.get('is_staff', user.is_staff)
+                    user.is_active = request.data.get('is_active', user.is_active)
+                    user.is_superuser = request.data.get('is_superuser', user.is_superuser)
+                    user.save()
+
+                return Response({'response': serializer.data}, status=status.HTTP_200_OK)
+
+            return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            response = e.args[0] if e.args else 'An unexpected error occurred.'
+            return Response({'error': response}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 # class CollegeUserListView(APIView):
 #     permission_classes=[AllowAny]
 #     def get(self, request, *args, **kwargs):

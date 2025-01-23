@@ -18,7 +18,7 @@ const routes: Routes = [
       {
         path: 'college-registration',
         component: CollegeRegistrationComponent,
-        data: { title: 'College Registration' },
+        data: { title: 'College Registration List' },
       },
       {
         path: 'user-registration',

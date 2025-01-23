@@ -12,6 +12,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { SharedModule } from '../shared/shared.module';
 import { CollegeAllLoginUsersListComponent } from './college-all-login-users-list/college-all-login-users-list.component';
 import { MatIconModule } from '@angular/material/icon';
+import { DialogCollegeRegistrationComponent } from './college-registration/dialog-college-registration/dialog-college-registration.component';
+import { DialogUserRegistrationComponent } from './user-registration/dialog-user-registration/dialog-user-registration.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -19,14 +22,16 @@ import { MatIconModule } from '@angular/material/icon';
     UserRegistrationComponent,
     CollegeRegistrationComponent,
     CollegeAllLoginUsersListComponent,
+    DialogCollegeRegistrationComponent,
+    DialogUserRegistrationComponent,
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
-
     MatButtonModule,
     MatInputModule,
     FormsModule,
+    MatCheckboxModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     SharedModule,

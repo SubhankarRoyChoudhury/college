@@ -15,10 +15,12 @@ User = get_user_model()
     
 class CollegeUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
+    college_name = serializers.CharField(source='college.name', read_only=True) # Use this for getching College_name from the college models and add into fields list
 
     class Meta:
         model = CollegeUser
-        fields = ['id', 'college', 'first_name', 'last_name', 'fatherOrHusband', 'aliasName', 'username', 'gender', 'address', 'department', 'country', 'state', 'city', 'pin', 'email', 'mobile', 'image_url', 'attachment_id', 'is_admin', 'is_superuser', 'is_active', 'is_staff', 'is_owner', 'is_manager', 'is_assistant', 'password']
+        # fields = '__all__' 
+        fields = ['id',  'college_name', 'college', 'first_name', 'last_name', 'fatherOrHusband', 'aliasName', 'username', 'gender', 'address', 'department', 'country', 'state', 'city', 'pin', 'email', 'mobile', 'image_url', 'attachment_id', 'is_admin', 'is_superuser', 'is_active', 'is_staff', 'is_owner', 'is_manager', 'is_assistant', 'password']
 
     def validate_username(self, value):
         # Ensure the username is unique across the User model

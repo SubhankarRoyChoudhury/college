@@ -65,11 +65,11 @@ export class AuthService {
     this.router.navigate(['/login']); // Navigate to login page after logout
   }
 
-  addCollegeUser(collegeData: any): Observable<any> {
+  addCollegeUser(collegeUerData: any): Observable<any> {
     return this.http
       .post(
         this.baseUrl + 'accounts/create-college-user/',
-        JSON.stringify(collegeData),
+        JSON.stringify(collegeUerData),
         {
           headers: this.httpHeadersencoded,
         }
