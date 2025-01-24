@@ -2,8 +2,14 @@
   padding: 10px;
 }
 .nav-item:hover {
-  background-color: #03a9f4;
-  color: #dfe9f2 !important;
+  background-color: #c9e7f5;
+  color: #000000 !important;
+}
+
+.router-link-active {
+  color: #000000 !important;
+  background-color: #c9e7f5;
+  border-bottom: 3px solid #03a9f4;
 }
 // .navbar{
 //   padding: 0px !important;
@@ -13,9 +19,9 @@
   display: inline !important;
 }
 
-.nav-link:hover {
-  color: #dfe9f2 !important;
-}
+// .nav-link:hover {
+//   color: #dfe9f2 !important;
+// }
 .user_image {
   width: 30px;
   height: 30px;
@@ -61,8 +67,8 @@ p {
 
 .card {
   border: none;
+  // height: 40px;
 }
-
 .company_name {
   font-size: 20px;
   color: #fff;
@@ -72,10 +78,6 @@ p {
 ::ng-deep .navbar_tool .mat-mdc-icon-button {
   --mat-mdc-button-persistent-ripple-color: none !important;
   --mat-mdc-button-ripple-color: none !important;
-}
-
-.card {
-  border: none;
 }
 
 ::ng-deep .menu .mat-mdc-menu-content {

@@ -1,8 +1,18 @@
 import { Injectable } from '@angular/core';
 import { SharedService } from './shared/shared.service';
 import { environment } from '../environments/environments';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse,
+} from '@angular/common/http';
+import { Observable, catchError, throwError } from 'rxjs';
+
+// interface User {
+//   id: number;
+//   username: string;
+//   email: string;
+// }
 
 @Injectable({
   providedIn: 'root',
@@ -52,16 +62,87 @@ export class AppService {
   }
 
   getColleges(): Observable<any> {
-    const access_token = localStorage.getItem('access_token');
-    const headers = this.httpHeadersencoded.set(
-      'Authorization',
-      `Bearer ${access_token}`
-    ); // Set Authorization header with Bearer token
-    if (access_token) {
-      this.access_token = access_token;
-    }
-    return this.http.get(this.baseUrl + 'college_management/colleges/', {
-      headers,
-    });
+    return this.http.get(this.baseUrl + 'college_management/colleges/');
+  }
+
+  getCollegeLoginUsers(): Observable<any> {
+    return this.http.get(this.baseUrl + 'accounts/users/');
+  }
+
+  getCollegeUsers(): Observable<any> {
+    return this.http.get(this.baseUrl + 'accounts/college-user/');
+  }
+
+  addCollege(collegeData: any): Observable<any> {
+    return this.http
+      .post(
+        this.baseUrl + 'college_management/colleges/',
+        JSON.stringify(collegeData),
+        {
+          headers: this.httpHeadersencoded,
+        }
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Registration failed:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  getCollegeById(clg_id: number): Observable<any> {
+    return this.http
+      .get(this.baseUrl + 'college_management/colleges/' + clg_id + '/')
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Registration failed:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  getCollegeUserById(college_user_id: number): Observable<any> {
+    return this.http
+      .get(this.baseUrl + 'accounts/college-user/' + college_user_id + '/')
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Registration failed:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  updateCollegeUserById(
+    college_user_id: number,
+    collegeUserData: any
+  ): Observable<any> {
+    // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put(
+      `${this.baseUrl}accounts/college-user/${college_user_id}/`,
+      JSON.stringify(collegeUserData),
+      {
+        headers: this.httpHeadersencoded,
+      }
+    );
+  }
+
+  updateCollegeById(clg_id: number, collegeData: any): Observable<any> {
+    // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put(
+      `${this.baseUrl}college_management/colleges/${clg_id}/`,
+      JSON.stringify(collegeData),
+      {
+        headers: this.httpHeadersencoded,
+      }
+    );
+  }
+
+  deleteCollegeById(id: number): Observable<any> {
+    return this.http.delete(
+      `${this.baseUrl}college_management/colleges/${id}/`,
+      {
+        headers: this.httpHeadersencoded,
+      }
+    );
   }
 }

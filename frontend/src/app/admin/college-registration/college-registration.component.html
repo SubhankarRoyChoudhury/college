@@ -1,0 +1,90 @@
+<div class="table_div">
+  <!-- NEW MODERN DESIGN  -->
+
+  <div class="container-fluid mt-5">
+    <h2 class="text-center mb-4">COLLEGE LIST</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle shadow-sm">
+        <thead class="bg-gradient-primary text-white">
+          <tr>
+            <th scope="col" class="text-center">#</th>
+            <th scope="col" class="text-center">COLLEGE</th>
+            <th scope="col" class="text-center">COLLEGE_ID</th>
+            <th scope="col" class="text-center">USERNAME</th>
+            <th scope="col" class="text-center">FATHERNAME</th>
+            <th scope="col" class="text-center">ADMINNAME</th>
+            <th scope="col" class="text-center">EMAIL</th>
+            <th scope="col" class="text-center">MOBILE</th>
+            <th scope="col" class="text-center">ADDRESS</th>
+            <th scope="col" class="text-center">COUNTRY</th>
+            <th scope="col" class="text-center">STATE</th>
+            <th scope="col" class="text-center">CITY</th>
+            <th scope="col" class="text-center">PIN</th>
+            <th scope="col" class="text-center">APPROVE</th>
+            <th scope="col" class="text-center">ADMIN</th>
+            <th scope="col" class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let clg of college_list">
+            <td class="text-center">{{ clg.id }}</td>
+            <td class="text-center">{{ clg.name }}</td>
+            <td class="text-center">{{ clg.college_id }}</td>
+            <td class="text-center">{{ clg.username }}</td>
+            <td class="text-center">{{ clg.father_name }}</td>
+            <td class="text-center">
+              <span>{{ clg.admin_name }}</span>
+            </td>
+            <td class="text-center">{{ clg.email }}</td>
+            <td class="text-center">{{ clg.mobile }}</td>
+            <td class="text-center">{{ clg.address }}</td>
+            <td class="text-center">{{ clg.country }}</td>
+            <td class="text-center">{{ clg.state }}</td>
+            <td class="text-center">{{ clg.city }}</td>
+            <td class="text-center">{{ clg.pin }}</td>
+            <td class="text-center">
+              <!-- <span class="">{{ user.is_approved }}</span> -->
+
+              <mat-icon
+                *ngIf="clg.is_approved; else notApproved"
+                style="color: #136813"
+                >check_circle</mat-icon
+              >
+              <ng-template #notApproved>
+                <mat-icon color="warn">cancel</mat-icon>
+              </ng-template>
+            </td>
+            <td class="text-center">
+              <!-- <span class="">{{ user.is_admin }}</span> -->
+
+              <mat-icon
+                *ngIf="clg.is_admin; else notAdmin"
+                style="color: #136813"
+                >check_circle</mat-icon
+              >
+              <ng-template #notAdmin>
+                <mat-icon color="warn">cancel</mat-icon>
+              </ng-template>
+            </td>
+            <td class="text-center">
+              <button
+                mat-raised-button
+                class="btn btn-sm btn-outline-primary me-2"
+                (click)="openEditCollege(clg.id)"
+              >
+                <mat-icon matPrefix>edit</mat-icon> Edit
+              </button>
+              <button
+                mat-raised-button
+                (click)="onDeleteCollege(clg.id)"
+                class="btn btn-sm btn-outline-danger"
+              >
+                <mat-icon matPrefix>delete</mat-icon> Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

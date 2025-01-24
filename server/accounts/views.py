@@ -12,9 +12,16 @@ from .serializers import  CollegeUserSerializer
 from .models import CollegeUser
 from oauth2_provider.views import TokenView
 from django.http import JsonResponse
-from django.contrib.auth.models import User
 import json
+from django.forms.models import model_to_dict
+from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
+from .models import CollegeUser 
+
 # User = get_user_model()
+
+
 
 
 class CustomTokenView(TokenView):
@@ -39,8 +46,113 @@ class CustomTokenView(TokenView):
             return JsonResponse(token_data, status=response.status_code)
 
         return response
+    
+    
 
-class CollegeUserCreateView(APIView):
+
+
+def user_list(request):
+    """Return a list of all users."""
+    # users = get_all_users()
+    users = User.objects.all()
+    data = [model_to_dict(user) for user in users]
+    return JsonResponse(data, safe=False)
+
+def user_detail(request, user_id):
+    """Return details of a specific user."""
+    try:
+        user = User.objects.get(id=user_id)
+        data = model_to_dict(user)
+        return JsonResponse(data)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found"}, status=404)
+    
+    
+# THIS CODE USE FOR ONLY UPDATE THE User MODEL START
+
+# @csrf_exempt
+# def update_user(request, user_id):
+#     """Update details of a specific user."""
+#     if request.method != "PUT":
+#         return JsonResponse({"error": "Method not allowed"}, status=405)
+
+#     try:
+#         user = User.objects.get(id=user_id)
+#     except User.DoesNotExist:
+#         return JsonResponse({"error": "User not found"}, status=404)
+
+#     try:
+#         # Parse the request body and update allowed fields
+#         data = json.loads(request.body)
+#         allowed_fields = {"username", "first_name", "last_name", "email", "is_staff", "is_active", "is_superuser"}
+#         updated_fields = {field: value for field, value in data.items() if field in allowed_fields}
+        
+#         for field, value in updated_fields.items():
+#             setattr(user, field, value)
+        
+#         user.save()
+
+#         return JsonResponse(model_to_dict(user, fields=allowed_fields), safe=False)
+#     except Exception as e:
+#         return JsonResponse({"error": f"Failed to update user: {str(e)}"}, status=400)
+    
+# THIS CODE USE FOR ONLY UPDATE THE User MODEL END
+    
+# THIS CODE USE FOR UPDATE THE User MODEL AND CollegeUser MODEL AT SAME TIME UPDATE USER MODEL AND COLLEGEUSER MODEL START
+
+@csrf_exempt
+def update_user(request, user_id):
+    """Update details of a specific user in both User and CollegeUser models."""
+    if request.method != "PUT":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+
+    try:
+        # Fetch the user from the User model
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found in User model"}, status=404)
+
+    try:
+        # Fetch the corresponding CollegeUser
+        try:
+            college_user = CollegeUser.objects.get(username=user.username)
+        except CollegeUser.DoesNotExist:
+            return JsonResponse({"error": "User not found in CollegeUser model"}, status=404)
+
+        # Parse the request body and update allowed fields
+        data = json.loads(request.body)
+        user_allowed_fields = {"first_name", "last_name", "email", "is_staff", "is_active", "is_superuser"}
+        college_user_allowed_fields = {"is_staff", "is_active", "is_superuser"}
+
+        # Update User fields
+        for field, value in data.items():
+            if field in user_allowed_fields:
+                setattr(user, field, value)
+
+        # Update CollegeUser fields
+        for field, value in data.items():
+            if field in college_user_allowed_fields:
+                setattr(college_user, field, value)
+
+        # Save both models
+        user.save()
+        college_user.save()
+
+        # Prepare the response with updated data
+        updated_user_data = model_to_dict(user, fields=user_allowed_fields)
+        updated_college_user_data = model_to_dict(college_user, fields=college_user_allowed_fields)
+
+        return JsonResponse({
+            "user": updated_user_data,
+            "college_user": updated_college_user_data
+        }, safe=False)
+
+    except Exception as e:
+        return JsonResponse({"error": f"Failed to update user: {str(e)}"}, status=400)
+# THIS CODE USE FOR UPDATE THE User MODEL AND CollegeUser MODEL AT SAME TIME UPDATE USER MODEL AND COLLEGEUSER MODEL END
+
+
+class CollegeUserCreateAndGetView(APIView):
     permission_classes=[AllowAny]
     def post(self, request, *args, **kwargs):
         serializer = CollegeUserSerializer(data=request.data)
@@ -58,6 +170,76 @@ class CollegeUserCreateView(APIView):
                 return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self, request, *args, **kwargs):
+        """Retrieve all CollegeUsers."""
+        college_users = CollegeUser.objects.select_related('college').all()  # Optimize query
+        serializer = CollegeUserSerializer(college_users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
+class CollegeUserDetailViewByID(APIView):
+    permission_classes=[AllowAny]
+    def get(self, request, id, *args, **kwargs):
+        """Retrieve a specific CollegeUser by id."""
+        try:
+            college_user = get_object_or_404(CollegeUser.objects.select_related('college'), id=id)  # Optimize query with select_related
+            serializer = CollegeUserSerializer(college_user)
+            result = serializer.data
+            # return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response({'response': result}, status=status.HTTP_200_OK)
+        
+        except Exception as e:
+            # Log the exception
+            # logging.getLogger("error_logger").error(repr(e))
+            
+            # Return a structured error response with status code 500
+            response = e.args[0] if e.args else 'An unexpected error occurred.'
+            return Response({'error': response}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    
+    def put(self, request, id, *args, **kwargs):
+        """Update a specific CollegeUser by id."""
+        try:
+            # Retrieve the CollegeUser instance
+            college_user = get_object_or_404(CollegeUser.objects.select_related('college'), id=id)
+
+            # If the username is the same as the current one, remove it from validation
+            if request.data.get('username') == college_user.username:
+                request.data.pop('username', None)  # Remove `username` from the data to bypass validation
+
+            # Partially update the CollegeUser instance
+            serializer = CollegeUserSerializer(college_user, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                # Save the CollegeUser updates
+                serializer.save()
+
+                # Update the corresponding User model fields
+                user_model = get_user_model()
+                user = user_model.objects.filter(username=college_user.username).first()
+                if user:
+                    user.is_staff = request.data.get('is_staff', user.is_staff)
+                    user.is_active = request.data.get('is_active', user.is_active)
+                    user.is_superuser = request.data.get('is_superuser', user.is_superuser)
+                    user.username = request.data.get('username', user.username)
+                    user.save()
+
+                return Response({'response': serializer.data}, status=status.HTTP_200_OK)
+
+            return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            response = e.args[0] if e.args else 'An unexpected error occurred.'
+            return Response({'error': response}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# class CollegeUserListView(APIView):
+#     permission_classes=[AllowAny]
+#     def get(self, request, *args, **kwargs):
+#         """Retrieve all CollegeUsers."""
+#         college_users = CollegeUser.objects.all()
+#         serializer = CollegeUserSerializer(college_users, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
     
     
 @api_view(['GET'])

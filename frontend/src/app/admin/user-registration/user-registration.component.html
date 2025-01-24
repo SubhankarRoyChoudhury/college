@@ -1,0 +1,170 @@
+<div class="table_div">
+  <!-- NEW MODERN DESIGN  -->
+
+  <div class="container-fluid mt-5">
+    <h2 class="text-center mb-4">COLLEGE USERS LIST</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle shadow-sm">
+        <thead class="bg-gradient-primary text-white">
+          <tr>
+            <th scope="col" class="text-center">#</th>
+            <th scope="col" class="text-center">COLLEGE</th>
+            <th scope="col" class="text-center">USERNAME</th>
+            <th scope="col" class="text-center">FIRST_NAME</th>
+            <th scope="col" class="text-center">LAST_NAME</th>
+            <th scope="col" class="text-center">FATHER_OR_HUSBAND_NAME</th>
+            <th scope="col" class="text-center">EMAIL</th>
+            <th scope="col" class="text-center">MOBILE</th>
+            <th scope="col" class="text-center">DEPARTMENT</th>
+            <th scope="col" class="text-center">ADDRESS</th>
+            <th scope="col" class="text-center">COUNTRY</th>
+            <th scope="col" class="text-center">STATE</th>
+            <th scope="col" class="text-center">CITY</th>
+            <th scope="col" class="text-center">STAFF_STATUS</th>
+            <th scope="col" class="text-center">SUPERUSER_STATUS</th>
+            <th scope="col" class="text-center">ACTIVE</th>
+            <th scope="col" class="text-center">ADMIN</th>
+            <th scope="col" class="text-center">ASSISTANT</th>
+            <th scope="col" class="text-center">MANAGER</th>
+            <th scope="col" class="text-center">OWNER</th>
+            <th scope="col" class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let clg_usr of college_users">
+            <td class="text-center">{{ clg_usr.id }}</td>
+            <td class="text-center">{{ clg_usr.college_name }}</td>
+            <td class="text-center">{{ clg_usr.username }}</td>
+            <td class="text-center">
+              <span>{{ clg_usr.first_name }}</span>
+            </td>
+            <td class="text-center">
+              <span>{{ clg_usr.last_name }}</span>
+            </td>
+            <td class="text-center">
+              <span>{{ clg_usr.fatherOrHusband }}</span>
+            </td>
+            <td class="text-center">{{ clg_usr.email }}</td>
+            <td class="text-center">{{ clg_usr.mobile }}</td>
+            <td class="text-center">{{ clg_usr.department }}</td>
+            <td class="text-center">{{ clg_usr.address }}</td>
+            <td class="text-center">{{ clg_usr.country }}</td>
+            <td class="text-center">{{ clg_usr.state }}</td>
+            <td class="text-center">{{ clg_usr.city }}</td>
+            <td class="text-center">
+              <!-- <span class="">{{ user.is_staff }}</span> -->
+
+              <mat-icon
+                *ngIf="clg_usr.is_staff; else notStaff"
+                style="color: #136813"
+                >check_circle</mat-icon
+              >
+              <ng-template #notStaff>
+                <mat-icon color="warn">cancel</mat-icon>
+              </ng-template>
+            </td>
+            <td class="text-center">
+              <!-- <span class="">{{ user.is_superuser }}</span> -->
+
+              <mat-icon
+                *ngIf="clg_usr.is_superuser; else notSuperuser"
+                style="color: #136813"
+                >check_circle</mat-icon
+              >
+              <ng-template #notSuperuser>
+                <mat-icon color="warn">cancel</mat-icon>
+              </ng-template>
+            </td>
+            <td class="text-center">
+              <!-- <span class="">{{ user.is_active }}</span> -->
+
+              <mat-icon
+                *ngIf="clg_usr.is_active; else notActive"
+                style="color: #136813"
+                >check_circle</mat-icon
+              >
+              <ng-template #notActive>
+                <mat-icon color="warn">cancel</mat-icon>
+              </ng-template>
+            </td>
+            <td class="text-center">
+              <!-- <span class="">{{ user.is_admin }}</span> -->
+
+              <mat-icon
+                *ngIf="clg_usr.is_admin; else notAdmin"
+                style="color: #136813"
+                >check_circle</mat-icon
+              >
+              <ng-template #notAdmin>
+                <mat-icon color="warn">cancel</mat-icon>
+              </ng-template>
+            </td>
+            <td class="text-center">
+              <!-- <span class="">{{ user.is_assistant }}</span> -->
+
+              <mat-icon
+                *ngIf="clg_usr.is_assistant; else notAssistant"
+                style="color: #136813"
+                >check_circle</mat-icon
+              >
+              <ng-template #notAssistant>
+                <mat-icon color="warn">cancel</mat-icon>
+              </ng-template>
+            </td>
+            <td class="text-center">
+              <!-- <span class="">{{ user.is_manager }}</span> -->
+
+              <mat-icon
+                *ngIf="clg_usr.is_manager; else notManager"
+                style="color: #136813"
+                >check_circle</mat-icon
+              >
+              <ng-template #notManager>
+                <mat-icon color="warn">cancel</mat-icon>
+              </ng-template>
+            </td>
+            <td class="text-center">
+              <!-- <span class="">{{ user.is_owner }}</span> -->
+
+              <mat-icon
+                *ngIf="clg_usr.is_owner; else notOwner"
+                style="color: #136813"
+                >check_circle</mat-icon
+              >
+              <ng-template #notOwner>
+                <mat-icon color="warn">cancel</mat-icon>
+              </ng-template>
+            </td>
+            <td class="text-center">
+              <div class="d-flex align-items-center">
+                <mat-icon
+                  matPrefix
+                  class="m-1"
+                  style="cursor: pointer"
+                  (click)="openEditCollege(clg_usr.id)"
+                  >edit</mat-icon
+                >
+                <mat-icon
+                  matPrefix
+                  class="m-1"
+                  style="cursor: pointer; color: #f00"
+                  >delete</mat-icon
+                >
+              </div>
+              <!-- <button
+                mat-raised-button
+                class="btn btn-sm btn-outline-primary me-2"
+                (click)="openEditCollege(clg_usr.id)"
+              >
+                <mat-icon matPrefix>edit</mat-icon> Edit
+              </button>
+              <button mat-raised-button class="btn btn-sm btn-outline-danger">
+                <mat-icon matPrefix>delete</mat-icon> Delete
+              </button> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -4,7 +4,6 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationFormCollegeUserComponent } from './registration-form-college-user/registration-form-college-user.component';
 import { UploadComponent } from './upload/upload.component';
-import { AdminComponent } from './admin/admin.component';
 
 const routes: Routes = [
   {
@@ -28,9 +27,14 @@ const routes: Routes = [
         path: 'registration-college-user',
         component: RegistrationFormCollegeUserComponent,
       },
+      // {
+      //   path: 'admin-control',
+      //   component: AdminComponent,
+      // },
       {
         path: 'admin-control',
-        component: AdminComponent,
+        loadChildren: () =>
+          import('./admin/admin.module').then((m) => m.AdminModule),
       },
       {
         path: 'upload',

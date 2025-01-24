@@ -40,5 +40,6 @@ import { DialogCommonHeaderComponent } from './dialog-common-header/dialog-commo
     MatSelectModule,
     MatTooltipModule,
   ],
+  exports: [DialogCommonHeaderComponent],
 })
 export class SharedModule {}

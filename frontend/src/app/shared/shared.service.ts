@@ -8,7 +8,7 @@ import { ToasterComponent } from './toaster/toaster.component';
 export class SharedService {
   contract_management_global_color = {
     dialog_header: {
-      background: '',
+      background: '#e7ecf7',
       color: '',
     },
     dialog_btn: {
@@ -22,7 +22,7 @@ export class SharedService {
       fontSize: '',
     },
     icon_btn: {
-      color: '#ffffff',
+      color: '#294D7C',
     },
   };
 
@@ -42,7 +42,7 @@ export class SharedService {
       data: {
         reason: msg,
         title1: 'College ',
-        title2: 'Planner',
+        title2: 'Management',
         status: status,
         show_cancel_btn: show_cancel_btn,
       },
