@@ -101,6 +101,31 @@ export class AppService {
       );
   }
 
+  getCollegeUserById(college_user_id: number): Observable<any> {
+    return this.http
+      .get(this.baseUrl + 'accounts/college-user/' + college_user_id + '/')
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Registration failed:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  updateCollegeUserById(
+    college_user_id: number,
+    collegeUserData: any
+  ): Observable<any> {
+    // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put(
+      `${this.baseUrl}accounts/college-user/${college_user_id}/`,
+      JSON.stringify(collegeUserData),
+      {
+        headers: this.httpHeadersencoded,
+      }
+    );
+  }
+
   updateCollegeById(clg_id: number, collegeData: any): Observable<any> {
     // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put(

@@ -15,6 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { DialogCollegeRegistrationComponent } from './college-registration/dialog-college-registration/dialog-college-registration.component';
 import { DialogUserRegistrationComponent } from './user-registration/dialog-user-registration/dialog-user-registration.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatFormFieldModule,
     SharedModule,
     MatIconModule,
+    MatAutocompleteModule,
+    MatRadioModule,
   ],
 })
 export class AdminModule {}

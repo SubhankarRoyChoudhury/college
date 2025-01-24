@@ -3,6 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { DialogCollegeRegistrationComponent } from './college-registration/dialog-college-registration/dialog-college-registration.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DialogUserRegistrationComponent } from './user-registration/dialog-user-registration/dialog-user-registration.component';
 
 @Component({
   selector: 'app-admin',
@@ -57,6 +58,18 @@ export class AdminComponent {
 
   openAddUser() {
     console.log('Add User from here');
+    const dialogRef = this.dialog.open(DialogUserRegistrationComponent, {
+      maxWidth: '100vw',
+      panelClass: 'panelClass_clg_register',
+      data: {
+        title: 'College User Registration Form',
+        btn_title: 'Submit',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
   openAddCollege() {
     console.log('Add College from here');

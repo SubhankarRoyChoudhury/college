@@ -68,7 +68,7 @@ export class AuthService {
   addCollegeUser(collegeUerData: any): Observable<any> {
     return this.http
       .post(
-        this.baseUrl + 'accounts/create-college-user/',
+        this.baseUrl + 'accounts/college-user/',
         JSON.stringify(collegeUerData),
         {
           headers: this.httpHeadersencoded,
@@ -80,6 +80,18 @@ export class AuthService {
           return throwError(error);
         })
       );
+  }
+  updateCollegeUserById(
+    college_user_id: number,
+    collegeUserData: any
+  ): Observable<any> {
+    return this.http.put(
+      `${this.baseUrl}accounts/college-user/${college_user_id}/`,
+      collegeUserData, // Don't stringify it, the HttpClient will handle JSON conversion
+      {
+        headers: this.httpHeadersencoded,
+      }
+    );
   }
 
   // Retrieve user details based on the username

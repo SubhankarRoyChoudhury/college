@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AppService } from './../../app.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogUserRegistrationComponent } from './dialog-user-registration/dialog-user-registration.component';
 
 interface CollegeUser {
   id: number;
@@ -37,7 +39,7 @@ interface CollegeUser {
 export class UserRegistrationComponent {
   college_users: CollegeUser[] = [];
 
-  constructor(private appService: AppService) {}
+  constructor(private appService: AppService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     // this.appService.getCollegeLoginUsers().subscribe({
@@ -57,6 +59,22 @@ export class UserRegistrationComponent {
           this.college_users = result;
         }
       }
+    });
+  }
+
+  openEditCollege(collegeUserId: number) {
+    const dialogRef = this.dialog.open(DialogUserRegistrationComponent, {
+      maxWidth: '100vw',
+      panelClass: 'panelClass_clg_register',
+      data: {
+        title: 'College User Registration Form',
+        btn_title: 'Update',
+        collegeUserId: collegeUserId,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
     });
   }
 }

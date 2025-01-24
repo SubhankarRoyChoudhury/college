@@ -26,27 +26,27 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let clg_usr of college_list">
-            <td class="text-center">{{ clg_usr.id }}</td>
-            <td class="text-center">{{ clg_usr.name }}</td>
-            <td class="text-center">{{ clg_usr.college_id }}</td>
-            <td class="text-center">{{ clg_usr.username }}</td>
-            <td class="text-center">{{ clg_usr.father_name }}</td>
+          <tr *ngFor="let clg of college_list">
+            <td class="text-center">{{ clg.id }}</td>
+            <td class="text-center">{{ clg.name }}</td>
+            <td class="text-center">{{ clg.college_id }}</td>
+            <td class="text-center">{{ clg.username }}</td>
+            <td class="text-center">{{ clg.father_name }}</td>
             <td class="text-center">
-              <span>{{ clg_usr.admin_name }}</span>
+              <span>{{ clg.admin_name }}</span>
             </td>
-            <td class="text-center">{{ clg_usr.email }}</td>
-            <td class="text-center">{{ clg_usr.mobile }}</td>
-            <td class="text-center">{{ clg_usr.address }}</td>
-            <td class="text-center">{{ clg_usr.country }}</td>
-            <td class="text-center">{{ clg_usr.state }}</td>
-            <td class="text-center">{{ clg_usr.city }}</td>
-            <td class="text-center">{{ clg_usr.pin }}</td>
+            <td class="text-center">{{ clg.email }}</td>
+            <td class="text-center">{{ clg.mobile }}</td>
+            <td class="text-center">{{ clg.address }}</td>
+            <td class="text-center">{{ clg.country }}</td>
+            <td class="text-center">{{ clg.state }}</td>
+            <td class="text-center">{{ clg.city }}</td>
+            <td class="text-center">{{ clg.pin }}</td>
             <td class="text-center">
               <!-- <span class="">{{ user.is_approved }}</span> -->
 
               <mat-icon
-                *ngIf="clg_usr.is_approved; else notApproved"
+                *ngIf="clg.is_approved; else notApproved"
                 style="color: #136813"
                 >check_circle</mat-icon
               >
@@ -58,7 +58,7 @@
               <!-- <span class="">{{ user.is_admin }}</span> -->
 
               <mat-icon
-                *ngIf="clg_usr.is_admin; else notAdmin"
+                *ngIf="clg.is_admin; else notAdmin"
                 style="color: #136813"
                 >check_circle</mat-icon
               >
@@ -70,13 +70,13 @@
               <button
                 mat-raised-button
                 class="btn btn-sm btn-outline-primary me-2"
-                (click)="openEditCollege(clg_usr.id)"
+                (click)="openEditCollege(clg.id)"
               >
                 <mat-icon matPrefix>edit</mat-icon> Edit
               </button>
               <button
                 mat-raised-button
-                (click)="onDeleteCollege(clg_usr.id)"
+                (click)="onDeleteCollege(clg.id)"
                 class="btn btn-sm btn-outline-danger"
               >
                 <mat-icon matPrefix>delete</mat-icon> Delete

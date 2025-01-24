@@ -178,13 +178,25 @@ class CollegeUserCreateAndGetView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     
-class CollegeUserDetailView(APIView):
+class CollegeUserDetailViewByID(APIView):
     permission_classes=[AllowAny]
     def get(self, request, id, *args, **kwargs):
         """Retrieve a specific CollegeUser by id."""
-        college_user = get_object_or_404(CollegeUser.objects.select_related('college'), id=id)  # Optimize query with select_related
-        serializer = CollegeUserSerializer(college_user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        try:
+            college_user = get_object_or_404(CollegeUser.objects.select_related('college'), id=id)  # Optimize query with select_related
+            serializer = CollegeUserSerializer(college_user)
+            result = serializer.data
+            # return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response({'response': result}, status=status.HTTP_200_OK)
+        
+        except Exception as e:
+            # Log the exception
+            # logging.getLogger("error_logger").error(repr(e))
+            
+            # Return a structured error response with status code 500
+            response = e.args[0] if e.args else 'An unexpected error occurred.'
+            return Response({'error': response}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
     
     def put(self, request, id, *args, **kwargs):
         """Update a specific CollegeUser by id."""
@@ -210,6 +222,7 @@ class CollegeUserDetailView(APIView):
                     user.is_staff = request.data.get('is_staff', user.is_staff)
                     user.is_active = request.data.get('is_active', user.is_active)
                     user.is_superuser = request.data.get('is_superuser', user.is_superuser)
+                    user.username = request.data.get('username', user.username)
                     user.save()
 
                 return Response({'response': serializer.data}, status=status.HTTP_200_OK)

@@ -136,15 +136,31 @@
               </ng-template>
             </td>
             <td class="text-center">
-              <button
+              <div class="d-flex align-items-center">
+                <mat-icon
+                  matPrefix
+                  class="m-1"
+                  style="cursor: pointer"
+                  (click)="openEditCollege(clg_usr.id)"
+                  >edit</mat-icon
+                >
+                <mat-icon
+                  matPrefix
+                  class="m-1"
+                  style="cursor: pointer; color: #f00"
+                  >delete</mat-icon
+                >
+              </div>
+              <!-- <button
                 mat-raised-button
                 class="btn btn-sm btn-outline-primary me-2"
+                (click)="openEditCollege(clg_usr.id)"
               >
                 <mat-icon matPrefix>edit</mat-icon> Edit
               </button>
               <button mat-raised-button class="btn btn-sm btn-outline-danger">
                 <mat-icon matPrefix>delete</mat-icon> Delete
-              </button>
+              </button> -->
             </td>
           </tr>
         </tbody>
