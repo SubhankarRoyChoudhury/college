@@ -17,6 +17,8 @@ from django.forms.models import model_to_dict
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR
+
 from .models import CollegeUser 
 
 # User = get_user_model()
@@ -222,7 +224,6 @@ class CollegeUserDetailViewByID(APIView):
                     user.is_staff = request.data.get('is_staff', user.is_staff)
                     user.is_active = request.data.get('is_active', user.is_active)
                     user.is_superuser = request.data.get('is_superuser', user.is_superuser)
-                    user.username = request.data.get('username', user.username)
                     user.save()
 
                 return Response({'response': serializer.data}, status=status.HTTP_200_OK)
@@ -232,6 +233,58 @@ class CollegeUserDetailViewByID(APIView):
         except Exception as e:
             response = e.args[0] if e.args else 'An unexpected error occurred.'
             return Response({'error': response}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+    # def put(self, request, id, *args, **kwargs):
+    #     """Update a specific CollegeUser by id, including updating the username in the User model."""
+    #     try:
+    #         # Retrieve the CollegeUser instance
+    #         college_user = get_object_or_404(CollegeUser.objects.select_related('college'), id=id)
+
+    #         # Save the old username for reference
+    #         old_username = college_user.username
+
+    #         # Partially update the CollegeUser instance
+    #         serializer = CollegeUserSerializer(college_user, data=request.data, partial=True)
+
+    #         if serializer.is_valid():
+    #             # Save the CollegeUser updates
+    #             serializer.save()
+
+    #             # Update the corresponding User model fields
+    #             user_model = get_user_model()
+    #             user = user_model.objects.filter(username=old_username).first()
+
+    #             if user:
+    #                 # Update the username and other fields in the User model
+    #                 new_username = request.data.get('username', user.username)
+    #                 user.username = new_username
+                    
+    #                 # Explicitly handle boolean values
+    #                 is_staff = request.data.get('is_staff', None)
+    #                 is_active = request.data.get('is_active', None)
+    #                 is_superuser = request.data.get('is_superuser', None)
+
+    #                 if is_staff is not None:
+    #                     user.is_staff = bool(is_staff)
+    #                 if is_active is not None:
+    #                     user.is_active = bool(is_active)
+    #                 if is_superuser is not None:
+    #                     user.is_superuser = bool(is_superuser)
+
+    #                 user.save()
+
+    #                 # Ensure the CollegeUser's username reflects the updated username
+    #                 college_user.username = new_username
+    #                 college_user.save()
+
+    #             return Response({'response': serializer.data}, status=HTTP_200_OK)
+
+    #         return Response({'error': serializer.errors}, status=HTTP_400_BAD_REQUEST)
+
+    #     except Exception as e:
+    #         response = e.args[0] if e.args else 'An unexpected error occurred.'
+    #         return Response({'error': response}, status=HTTP_500_INTERNAL_SERVER_ERROR)
 
 # class CollegeUserListView(APIView):
 #     permission_classes=[AllowAny]

@@ -114,6 +114,49 @@
   // }
 }
 
+::ng-deep .mdc-radio__background {
+  box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+  border-radius: 50%;
+}
+
+::ng-deep
+  .mat-mdc-radio-button
+  .mdc-radio
+  .mdc-radio__native-control:enabled
+  + .mdc-radio__background
+  .mdc-radio__inner-circle {
+  border-color: #03a9f4 !important;
+}
+
+::ng-deep
+  .mat-mdc-radio-button
+  .mdc-radio
+  .mdc-radio__native-control:enabled:checked
+  + .mdc-radio__background
+  .mdc-radio__outer-circle {
+  border-color: transparent !important;
+}
+
+::ng-deep
+  .mat-mdc-radio-button
+  .mdc-radio
+  .mdc-radio__native-control:enabled:not(:checked)
+  + .mdc-radio__background
+  .mdc-radio__outer-circle {
+  border-color: transparent !important;
+}
+
+.btn_div .btn {
+  box-shadow: none;
+  width: 100%;
+  padding: 0px 40px;
+  height: 40px;
+  background-color: #03a9f4;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+  letter-spacing: 1.3px;
+}
 @media screen and (max-width: 650px) {
   ::ng-deep .panelClass_clg_register .mat-mdc-dialog-container {
     margin: 0px;
