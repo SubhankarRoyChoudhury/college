@@ -251,7 +251,7 @@ export class DialogUserRegistrationComponent
         image_url: '',
         attachment_id: 0,
         gender: this.collegeUserRegisForm.controls.gender.value,
-        department: '',
+        department: this.collegeUserRegisForm.controls.department.value,
         is_admin: this.collegeUserRegisForm.controls.is_admin.value,
         is_superuser: this.collegeUserRegisForm.controls.is_superuser.value,
         is_active: this.collegeUserRegisForm.controls.is_active.value,
@@ -259,8 +259,8 @@ export class DialogUserRegistrationComponent
         is_owner: this.collegeUserRegisForm.controls.is_owner.value,
         is_manager: this.collegeUserRegisForm.controls.is_manager.value,
         is_assistant: this.collegeUserRegisForm.controls.is_assistant.value,
-        can_approve: 'False',
-        is_approved: 'False',
+        // can_approve: 'False',
+        // is_approved: 'False',
       };
 
       // Add the password field only if we are creating a new user (not updating)

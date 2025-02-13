@@ -13,10 +13,14 @@ from .models import CollegeUser
 from oauth2_provider.views import TokenView
 from django.http import JsonResponse
 import json
+from django.utils import timezone
+
 from django.forms.models import model_to_dict
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR
+
 from .models import CollegeUser 
 
 # User = get_user_model()
@@ -183,7 +187,7 @@ class CollegeUserDetailViewByID(APIView):
     def get(self, request, id, *args, **kwargs):
         """Retrieve a specific CollegeUser by id."""
         try:
-            college_user = get_object_or_404(CollegeUser.objects.select_related('college'), id=id)  # Optimize query with select_related
+            college_user = get_object_or_404(CollegeUser.objects.select_related('college').filter(delist=False), id=id)  # Optimize query with select_related
             serializer = CollegeUserSerializer(college_user)
             result = serializer.data
             # return Response(serializer.data, status=status.HTTP_200_OK)
@@ -210,7 +214,7 @@ class CollegeUserDetailViewByID(APIView):
 
             # Partially update the CollegeUser instance
             serializer = CollegeUserSerializer(college_user, data=request.data, partial=True)
-
+            
             if serializer.is_valid():
                 # Save the CollegeUser updates
                 serializer.save()
@@ -222,7 +226,6 @@ class CollegeUserDetailViewByID(APIView):
                     user.is_staff = request.data.get('is_staff', user.is_staff)
                     user.is_active = request.data.get('is_active', user.is_active)
                     user.is_superuser = request.data.get('is_superuser', user.is_superuser)
-                    user.username = request.data.get('username', user.username)
                     user.save()
 
                 return Response({'response': serializer.data}, status=status.HTTP_200_OK)
@@ -232,6 +235,58 @@ class CollegeUserDetailViewByID(APIView):
         except Exception as e:
             response = e.args[0] if e.args else 'An unexpected error occurred.'
             return Response({'error': response}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+    # def put(self, request, id, *args, **kwargs):
+    #     """Update a specific CollegeUser by id, including updating the username in the User model."""
+    #     try:
+    #         # Retrieve the CollegeUser instance
+    #         college_user = get_object_or_404(CollegeUser.objects.select_related('college'), id=id)
+
+    #         # Save the old username for reference
+    #         old_username = college_user.username
+
+    #         # Partially update the CollegeUser instance
+    #         serializer = CollegeUserSerializer(college_user, data=request.data, partial=True)
+
+    #         if serializer.is_valid():
+    #             # Save the CollegeUser updates
+    #             serializer.save()
+
+    #             # Update the corresponding User model fields
+    #             user_model = get_user_model()
+    #             user = user_model.objects.filter(username=old_username).first()
+
+    #             if user:
+    #                 # Update the username and other fields in the User model
+    #                 new_username = request.data.get('username', user.username)
+    #                 user.username = new_username
+                    
+    #                 # Explicitly handle boolean values
+    #                 is_staff = request.data.get('is_staff', None)
+    #                 is_active = request.data.get('is_active', None)
+    #                 is_superuser = request.data.get('is_superuser', None)
+
+    #                 if is_staff is not None:
+    #                     user.is_staff = bool(is_staff)
+    #                 if is_active is not None:
+    #                     user.is_active = bool(is_active)
+    #                 if is_superuser is not None:
+    #                     user.is_superuser = bool(is_superuser)
+
+    #                 user.save()
+
+    #                 # Ensure the CollegeUser's username reflects the updated username
+    #                 college_user.username = new_username
+    #                 college_user.save()
+
+    #             return Response({'response': serializer.data}, status=HTTP_200_OK)
+
+    #         return Response({'error': serializer.errors}, status=HTTP_400_BAD_REQUEST)
+
+    #     except Exception as e:
+    #         response = e.args[0] if e.args else 'An unexpected error occurred.'
+    #         return Response({'error': response}, status=HTTP_500_INTERNAL_SERVER_ERROR)
 
 # class CollegeUserListView(APIView):
 #     permission_classes=[AllowAny]
@@ -240,7 +295,44 @@ class CollegeUserDetailViewByID(APIView):
 #         college_users = CollegeUser.objects.all()
 #         serializer = CollegeUserSerializer(college_users, many=True)
 #         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
+
+class CollegeUserDelistView(APIView):
+    """
+    API to delist (soft delete) a CollegeUser.
+    """
+    permission_classes = [AllowAny]  # Change this if you want to restrict access
+
+    def put(self, request, id, *args, **kwargs):
+        """Mark a CollegeUser as delisted."""
+        try:
+            # Retrieve the CollegeUser instance
+            college_user = get_object_or_404(CollegeUser, id=id)
+
+            # If already delisted, return a response
+            if college_user.delist:
+                return Response({'message': 'User is already delisted.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Mark the user as delisted
+            college_user.delist = True
+            college_user.delisted_by = request.user.username if request.user.is_authenticated else "system"
+            college_user.delisted_on = timezone.now()
+            college_user.is_active = False  # Optionally deactivate the CollegeUser
+            college_user.save()
+
+            # Update the corresponding authentication User model
+            user_model = get_user_model()
+            user = user_model.objects.filter(username=college_user.username).first()
+            if user:
+                user.is_active = False  # Disable login for delisted users
+                user.save()
+
+            return Response({'message': 'User has been successfully delisted.'}, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+         
     
 @api_view(['GET'])
 def getUserDetails(request):

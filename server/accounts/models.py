@@ -50,6 +50,10 @@ class CollegeUser(models.Model):
     password_reset_link_sent_at = models.DateTimeField(null=True, blank=True)
     password_reset_token = models.CharField(
         max_length=150, default='', null=True, blank=True)
+    delist = models.BooleanField(default=False)
+    delisted_by = models.CharField(
+        max_length=30, blank=True, null=True, default='')
+    delisted_on = models.DateTimeField(blank=True, null=True, default=None)
 
     def __str__(self):
         return f'{self.id},{self.username}'

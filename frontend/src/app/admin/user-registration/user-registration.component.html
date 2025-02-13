@@ -27,6 +27,7 @@
             <th scope="col" class="text-center">ASSISTANT</th>
             <th scope="col" class="text-center">MANAGER</th>
             <th scope="col" class="text-center">OWNER</th>
+            <th scope="col" class="text-center">DELIST</th>
             <th scope="col" class="text-center">Actions</th>
           </tr>
         </thead>
@@ -136,6 +137,18 @@
               </ng-template>
             </td>
             <td class="text-center">
+              <!-- <span class="">{{ user.is_owner }}</span> -->
+
+              <mat-icon
+                *ngIf="clg_usr.delist; else notDelist"
+                style="color: #136813"
+                >check_circle</mat-icon
+              >
+              <ng-template #notDelist>
+                <mat-icon color="warn">cancel</mat-icon>
+              </ng-template>
+            </td>
+            <td class="text-center">
               <div class="d-flex align-items-center">
                 <mat-icon
                   matPrefix
@@ -148,6 +161,7 @@
                   matPrefix
                   class="m-1"
                   style="cursor: pointer; color: #f00"
+                  (click)="onDeleteCollegeUser(clg_usr.id)"
                   >delete</mat-icon
                 >
               </div>
