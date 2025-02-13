@@ -22,7 +22,7 @@ class CustomUserAdmin(UserAdmin):
 class CollegeUserAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'first_name', 'last_name','fatherOrHusband', 'username', 'address', 'department', 'gender', 'country', 'state', 'city', 'pin', 'email', 'college',
-        'is_active', 'is_staff', 'is_superuser', 'is_admin', 'is_assistant', 'is_owner', 'is_manager', 'registrationDate'
+        'is_active', 'is_staff', 'is_superuser', 'is_admin', 'is_assistant', 'is_owner', 'is_manager', 'delist', 'delisted_by', 'delisted_on', 'registrationDate'
     )
     search_fields = ('first_name', 'last_name', 'username', 'email', 'college__college_name')
     list_filter = ('is_active', 'is_superuser', 'is_admin', 'college')

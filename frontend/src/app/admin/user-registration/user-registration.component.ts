@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AppService } from './../../app.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogUserRegistrationComponent } from './dialog-user-registration/dialog-user-registration.component';
+import { DialogConfirmationComponent } from '../../shared/dialog-confirmation/dialog-confirmation.component';
 
 interface CollegeUser {
   id: number;
@@ -30,6 +31,7 @@ interface CollegeUser {
   is_owner: boolean;
   is_manager: boolean;
   is_assistant: boolean;
+  delist: boolean;
 }
 @Component({
   selector: 'app-user-registration',
@@ -76,5 +78,32 @@ export class UserRegistrationComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  onDeleteCollegeUser(id: number): void {
+    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+      panelClass: 'activatepage',
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteCollegeUserById(id);
+      }
+    });
+  }
+
+  deleteCollegeUserById(id: number): void {
+    this.appService.deleteCollegeUserById(id).subscribe(
+      (response) => {
+        this.appService.openToaster('College User deleted successfully', true);
+        this.getCollegeUsers();
+        // Optionally reload the list or perform additional actions
+        // this.getColleges(); // Call a method to refresh the college list
+      },
+      (error) => {
+        console.error('Error deleting college:', error);
+        this.appService.openToaster('Failed to delete college user', false);
+      }
+    );
   }
 }

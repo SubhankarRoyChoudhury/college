@@ -145,4 +145,10 @@ export class AppService {
       }
     );
   }
+
+  deleteCollegeUserById(id: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}accounts/college-user/delist/${id}/`, {
+      headers: this.httpHeadersencoded,
+    });
+  }
 }

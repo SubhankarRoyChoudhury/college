@@ -20,7 +20,7 @@ class CollegeUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CollegeUser
         # fields = '__all__' 
-        fields = ['id',  'college_name', 'college', 'first_name', 'last_name', 'fatherOrHusband', 'aliasName', 'username', 'gender', 'address', 'department', 'country', 'state', 'city', 'pin', 'email', 'mobile', 'image_url', 'attachment_id', 'is_admin', 'is_superuser', 'is_active', 'is_staff', 'is_owner', 'is_manager', 'is_assistant', 'password']
+        fields = ['id',  'college_name', 'college', 'first_name', 'last_name', 'fatherOrHusband', 'aliasName', 'username', 'gender', 'address', 'department', 'country', 'state', 'city', 'pin', 'email', 'mobile', 'image_url', 'attachment_id', 'is_admin', 'is_superuser', 'is_active', 'is_staff', 'is_owner', 'is_manager', 'is_assistant', 'delist', 'password']
 
     def validate_username(self, value):
         # Ensure the username is unique across the User model

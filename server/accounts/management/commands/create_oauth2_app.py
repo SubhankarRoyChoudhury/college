@@ -15,6 +15,8 @@ class Command(BaseCommand):
 
         # Application details
         name = 'College'
+        # name = input("Enter App Name")
+        
         # client_id = token_urlsafe(32) # For First Time Create 
         # client_secret = token_urlsafe(64) # For First Time Create 
         
