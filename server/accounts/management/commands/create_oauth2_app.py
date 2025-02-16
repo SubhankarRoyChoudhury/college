@@ -19,7 +19,7 @@ class Command(BaseCommand):
         
         # client_id = token_urlsafe(32) # For First Time Create 
         # client_secret = token_urlsafe(64) # For First Time Create 
-        
+        # 
         client_id=os.getenv("CLIENT_ID"), # After creation it will get form .env file from backend folder
         client_secret=os.getenv("CLIENT_SECRET"), # After creation it will get form .env file from backend folder
 
