@@ -65,6 +65,12 @@ export class AppService {
     return this.http.get(this.baseUrl + 'college_management/colleges/');
   }
 
+  getApproveColleges(): Observable<any> {
+    return this.http.get(
+      this.baseUrl + 'college_management/colleges_is_approve/'
+    );
+  }
+
   getCollegeLoginUsers(): Observable<any> {
     return this.http.get(this.baseUrl + 'accounts/users/');
   }

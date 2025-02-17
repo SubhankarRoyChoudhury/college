@@ -67,7 +67,7 @@ body {
 .form-field-textarea {
   //   padding-left: 10px;
   //   margin-bottom: 20px;
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
 }
 
@@ -81,6 +81,9 @@ body {
     .mat-mdc-form-field-infix {
     padding-top: 2px;
     padding-bottom: 0px;
+  }
+  ::ng-deep .mdc-text-field--filled.mdc-text-field--disabled {
+    background-color: transparent !important;
   }
 }
 ::ng-deep .mat-mdc-option:focus.mdc-list-item,

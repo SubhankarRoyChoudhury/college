@@ -43,6 +43,7 @@
             matInput
             formControlName="college"
             [matAutocomplete]="auto"
+            [disabled]="isCollegesEmpty()"
           />
           <mat-autocomplete
             autoActiveFirstOption
@@ -76,6 +77,9 @@
               >close</mat-icon
             >
           </button>
+          <mat-hint *ngIf="isCollegesEmpty()"
+            >College Need To Be Approve...</mat-hint
+          >
         </mat-form-field>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-6 col-12 ps-1 pe-1 mb-3">

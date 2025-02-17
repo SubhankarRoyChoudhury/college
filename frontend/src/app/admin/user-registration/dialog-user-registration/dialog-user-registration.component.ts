@@ -118,7 +118,7 @@ export class DialogUserRegistrationComponent
   ) {}
 
   async ngOnInit(): Promise<void> {
-    await this.getColleges();
+    await this.getApproveColleges();
     console.log('College Id =======>', this.data.collegeUserId);
     if (this.data.collegeUserId) {
       this.college_user_id = this.data.collegeUserId;
@@ -159,8 +159,8 @@ export class DialogUserRegistrationComponent
     );
   }
 
-  async getColleges(): Promise<void> {
-    this.AppService.getColleges().subscribe(
+  async getApproveColleges(): Promise<void> {
+    this.AppService.getApproveColleges().subscribe(
       (data) => {
         console.log(data);
         this.colleges = data;
@@ -175,6 +175,17 @@ export class DialogUserRegistrationComponent
         this.AppService.openToaster('Data Not Found', false);
       }
     );
+  }
+  isCollegesEmpty(): boolean {
+    const isEmpty = this.colleges.length === 0;
+
+    if (isEmpty) {
+      this.collegeUserRegisForm.controls.college.disable();
+    } else {
+      this.collegeUserRegisForm.controls.college.enable();
+    }
+
+    return isEmpty;
   }
   private _filter(value: any): COLLEGE[] {
     // const filterValue = typeof value === 'string' ? value.toLowerCase() : '';

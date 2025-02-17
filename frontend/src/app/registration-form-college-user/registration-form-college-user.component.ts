@@ -62,7 +62,7 @@ export class RegistrationFormCollegeUserComponent
 
   access_token: string = '';
   async ngOnInit(): Promise<void> {
-    await this.getColleges();
+    await this.getApproveColleges();
     this.get_accesstoken();
   }
 
@@ -129,19 +129,20 @@ export class RegistrationFormCollegeUserComponent
         },
         (error) => {
           console.error('Registration failed:', error);
+          // this.AppService.openToaster(error.response, false);
 
-          // Check if the error message is related to username already existing
-          let errorMessage = '';
+          let errorMessage = 'Registration failed. Please try again.';
 
-          // Show the error message if username already exists
-          if (errorMessage) {
-            this.AppService.openToaster(errorMessage, false);
-          } else {
-            this.AppService.openToaster(
-              'Username already exists. Please choose a different username.',
-              false
-            );
+          if (error.error && error.error.errors) {
+            const errors = error.error.errors;
+            errorMessage = Object.keys(errors)
+              .map((field) => `${field}: ${errors[field].join(', ')}`)
+              .join('\n');
+          } else if (error.error && error.error.error) {
+            errorMessage = error.error.error.join(', ');
           }
+
+          this.AppService.openToaster(errorMessage, false);
         }
       );
     }
@@ -157,8 +158,8 @@ export class RegistrationFormCollegeUserComponent
     textarea.style.height = textarea.scrollHeight + 'px'; // Set the height to match the scroll height
   }
 
-  async getColleges(): Promise<void> {
-    this.AppService.getColleges().subscribe(
+  async getApproveColleges(): Promise<void> {
+    this.AppService.getApproveColleges().subscribe(
       (data) => {
         console.log(data);
         this.colleges = data;
@@ -170,11 +171,23 @@ export class RegistrationFormCollegeUserComponent
           );
       },
       (error: HttpErrorResponse) => {
+        this.colleges = [];
+        this.regis_form.controls.college.disable();
         this.AppService.openToaster('Data Not Found', false);
       }
     );
   }
+  isCollegesEmpty(): boolean {
+    const isEmpty = this.colleges.length === 0;
 
+    if (isEmpty) {
+      this.regis_form.controls.college.disable();
+    } else {
+      this.regis_form.controls.college.enable();
+    }
+
+    return isEmpty;
+  }
   private _filter(value: any): COLLEGE[] {
     // const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
 
