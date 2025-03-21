@@ -62,6 +62,15 @@ def user_list(request):
     data = [model_to_dict(user) for user in users]
     return JsonResponse(data, safe=False)
 
+
+# def user_list(request):
+#     """Return a list of all users with detailed information."""
+#     users = User.objects.all().values(
+#         'id', 'username', 'email', 'first_name', 'last_name',
+#         'is_staff', 'is_superuser', 'is_active', 'last_login', 'date_joined'
+#     )  # Fetch only required fields
+#     return JsonResponse(list(users), safe=False)
+
 def user_detail(request, user_id):
     """Return details of a specific user."""
     try:

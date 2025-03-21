@@ -166,6 +166,18 @@
   box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
   letter-spacing: 1.3px;
 }
+.blink_text {
+  animation: blinker 2s linear infinite;
+  color: #f00;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
 @media screen and (max-width: 650px) {
   ::ng-deep .panelClass_clg_register .mat-mdc-dialog-container {
     margin: 0px;
