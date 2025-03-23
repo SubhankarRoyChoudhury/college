@@ -46,14 +46,34 @@ STATIC_URL = '/api/static/'
 CORS_ORIGIN_ALLOW=True
 
 
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",  # ✅ Allows Angular local development
+]
 CORS_ALLOW_ALL_ORIGINS = True  # Allows all origins (for testing)
 CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_HTTPONLY = False  # Make sure it's accessible
+CSRF_COOKIE_NAME = "csrftoken"
+SESSION_COOKIE_HTTPONLY = True  # Recommended for security
+XS_SHARING_ALLOWED_METHODS = ['POST', 'GET', 'OPTIONS', 'PUT', 'DELETE']
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
+]
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'X-CSRFToken'
+]
 # 3.
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost',
-    'http://127.0.0.1',
-    'http://0.0.0.0',
+    "http://localhost:4200",
+    "http://127.0.0.1:4200",
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
 ]
 
 # Auto logout settings...
@@ -137,6 +157,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'college.wsgi.application'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles") 
 
 
 # Database
@@ -207,6 +228,8 @@ USE_TZ = os.getenv('USE_TZ')
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

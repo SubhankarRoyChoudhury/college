@@ -12,6 +12,11 @@ import { AppService } from '../app.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
+import { FileUploaderComponent } from '../file-uploader/file-uploader.component';
+import { MatDialog } from '@angular/material/dialog';
+
+import { environment } from './../../environments/environments';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 interface COLLEGE {
   id: number;
@@ -47,6 +52,7 @@ export class RegistrationFormCollegeUserComponent
     address: new FormControl('', [Validators.required]),
     gender: new FormControl('', [Validators.required]),
     country: new FormControl('', [Validators.required]),
+    attachment_id: new FormControl(null),
     state: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
     pin: new FormControl('', [Validators.required]),
@@ -54,15 +60,20 @@ export class RegistrationFormCollegeUserComponent
     mobile: new FormControl('', [Validators.required]),
   });
 
+  img_url: any;
+  img_source: any;
+
   constructor(
     private authService: AuthService,
     private router: Router,
-    private AppService: AppService
+    private sanitizer: DomSanitizer,
+    private AppService: AppService,
+    public dialog: MatDialog
   ) {}
 
   access_token: string = '';
   async ngOnInit(): Promise<void> {
-    await this.getColleges();
+    await this.getApproveColleges();
     this.get_accesstoken();
   }
 
@@ -98,7 +109,7 @@ export class RegistrationFormCollegeUserComponent
         email: this.regis_form.controls.email.value,
         mobile: this.regis_form.controls.mobile.value,
         image_url: '',
-        attachment_id: 0,
+        attachment_id: this.regis_form.controls.attachment_id.value,
         gender: this.regis_form.controls.gender.value,
         department: '',
         can_approve: 'False',
@@ -129,19 +140,20 @@ export class RegistrationFormCollegeUserComponent
         },
         (error) => {
           console.error('Registration failed:', error);
+          // this.AppService.openToaster(error.response, false);
 
-          // Check if the error message is related to username already existing
-          let errorMessage = '';
+          let errorMessage = 'Registration failed. Please try again.';
 
-          // Show the error message if username already exists
-          if (errorMessage) {
-            this.AppService.openToaster(errorMessage, false);
-          } else {
-            this.AppService.openToaster(
-              'Username already exists. Please choose a different username.',
-              false
-            );
+          if (error.error && error.error.errors) {
+            const errors = error.error.errors;
+            errorMessage = Object.keys(errors)
+              .map((field) => `${field}: ${errors[field].join(', ')}`)
+              .join('\n');
+          } else if (error.error && error.error.error) {
+            errorMessage = error.error.error.join(', ');
           }
+
+          this.AppService.openToaster(errorMessage, false);
         }
       );
     }
@@ -157,8 +169,8 @@ export class RegistrationFormCollegeUserComponent
     textarea.style.height = textarea.scrollHeight + 'px'; // Set the height to match the scroll height
   }
 
-  async getColleges(): Promise<void> {
-    this.AppService.getColleges().subscribe(
+  async getApproveColleges(): Promise<void> {
+    this.AppService.getApproveColleges().subscribe(
       (data) => {
         console.log(data);
         this.colleges = data;
@@ -170,11 +182,23 @@ export class RegistrationFormCollegeUserComponent
           );
       },
       (error: HttpErrorResponse) => {
+        this.colleges = [];
+        this.regis_form.controls.college.disable();
         this.AppService.openToaster('Data Not Found', false);
       }
     );
   }
+  isCollegesEmpty(): boolean {
+    const isEmpty = this.colleges.length === 0;
 
+    if (isEmpty) {
+      this.regis_form.controls.college.disable();
+    } else {
+      this.regis_form.controls.college.enable();
+    }
+
+    return isEmpty;
+  }
   private _filter(value: any): COLLEGE[] {
     // const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
 
@@ -200,5 +224,40 @@ export class RegistrationFormCollegeUserComponent
   clearCollege(): void {
     this.regis_form.controls.college.setValue(null);
     this.selectedCollegeId = null;
+  }
+
+  openFileUploader(): void {
+    const dialogRef = this.dialog.open(FileUploaderComponent, {
+      maxWidth: '100vw',
+      panelClass: 'panel_class_add_fees',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        title: '',
+        btn_title: '',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog closed with result: ${result}`);
+      this.getImageUrl(result);
+      this.regis_form.patchValue({ attachment_id: result });
+    });
+  }
+
+  getImageUrl(id: any) {
+    this.AppService.getFiles(id).subscribe((e) => {
+      console.log(e);
+      this.img_url = e.file.slice(1);
+      // ✅ Construct full image URL
+      let base_url = environment.base_url;
+      // const hostname = base_url.replace(/\/api\/$/, '');
+      this.img_source = base_url + this.img_url;
+      console.log('Updated img_source:', this.img_source);
+    });
+  }
+
+  getSafeImageUrl(url: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 }

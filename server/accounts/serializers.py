@@ -4,7 +4,7 @@ from college_management.models import College
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from .models import CollegeUser
+from .models import CollegeUser, UploadedFile
 
 User = get_user_model()
 
@@ -90,3 +90,10 @@ class CollegeUserSerializer(serializers.ModelSerializer):
         )
 
         return college_user
+
+
+
+class UploadedFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UploadedFile
+        fields = ['id', 'file', 'uploaded_at']

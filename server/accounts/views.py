@@ -8,8 +8,8 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import get_user_model
 from django.db import transaction
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import  CollegeUserSerializer
-from .models import CollegeUser
+from .serializers import  CollegeUserSerializer, UploadedFileSerializer
+from .models import CollegeUser, UploadedFile
 from oauth2_provider.views import TokenView
 from django.http import JsonResponse
 import json
@@ -19,6 +19,7 @@ from django.forms.models import model_to_dict
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR
 
 from .models import CollegeUser 
@@ -61,6 +62,15 @@ def user_list(request):
     users = User.objects.all()
     data = [model_to_dict(user) for user in users]
     return JsonResponse(data, safe=False)
+
+
+# def user_list(request):
+#     """Return a list of all users with detailed information."""
+#     users = User.objects.all().values(
+#         'id', 'username', 'email', 'first_name', 'last_name',
+#         'is_staff', 'is_superuser', 'is_active', 'last_login', 'date_joined'
+#     )  # Fetch only required fields
+#     return JsonResponse(list(users), safe=False)
 
 def user_detail(request, user_id):
     """Return details of a specific user."""
@@ -162,25 +172,51 @@ class CollegeUserCreateAndGetView(APIView):
         serializer = CollegeUserSerializer(data=request.data)
         
         if serializer.is_valid():
-            # Save the CollegeUser instance and ensure atomic transaction
             try:
                 with transaction.atomic():
                     serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             except Exception as e:
-                if 'username' in str(e).lower():  # Check if the error is related to username
-                    return Response({'error': 'Username already exists. Please choose a different username.'}, 
-                                    status=status.HTTP_400_BAD_REQUEST)
-                return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+                if 'username' in str(e).lower():
+                    return Response(
+                        {'username': ['Username already exists. Please choose a different username.']},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                return Response({'error': [str(e)]}, status=status.HTTP_400_BAD_REQUEST)
         
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # Return serializer errors in a structured format
+        return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     
     def get(self, request, *args, **kwargs):
         """Retrieve all CollegeUsers."""
         college_users = CollegeUser.objects.select_related('college').all()  # Optimize query
         serializer = CollegeUserSerializer(college_users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
+
+class FileUploadView(APIView):
+    permission_classes=[AllowAny]
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, *args, **kwargs):
+        file_serializer = UploadedFileSerializer(data=request.data)
+        if file_serializer.is_valid():
+            file_serializer.save()
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, id=None, *args, **kwargs):
+        if id:
+            file = get_object_or_404(UploadedFile, id=id)
+            serializer = UploadedFileSerializer(file)
+            return Response(serializer.data)
+        else:
+            files = UploadedFile.objects.all()
+            serializer = UploadedFileSerializer(files, many=True)
+            return Response(serializer.data)
+
+
     
 class CollegeUserDetailViewByID(APIView):
     permission_classes=[AllowAny]

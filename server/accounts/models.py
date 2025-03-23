@@ -59,3 +59,10 @@ class CollegeUser(models.Model):
         return f'{self.id},{self.username}'
 
 
+
+class UploadedFile(models.Model):
+    file = models.FileField(upload_to='uploads/')  # Store files in 'media/uploads/'
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.file.name

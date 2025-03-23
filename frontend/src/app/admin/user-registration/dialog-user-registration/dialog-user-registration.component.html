@@ -11,6 +11,26 @@
     (ngSubmit)="onSubmit()"
     class="form-container"
   >
+    <div class="logo mb-4" (click)="openFileUploader()">
+      <!-- <img src="./assets/images/login_logo.png" alt="" /> -->
+      <img
+        [src]="
+          img_source
+            ? getSafeImageUrl(img_source)
+            : 'assets/images/login_logo.png'
+        "
+        alt="Uploaded Image"
+        class="uploaded-image"
+      />
+      <!-- <span
+      *ngIf="!img_source"
+      style="font-size: 10px; line-height: 12px; font-family: alatsipro"
+      >Click Here To Upload</span
+    > -->
+      <!-- <div class="attachment_btn_div" >
+      <mat-icon style="width:20px; height:20px; font-size:20px;">photo_camera</mat-icon>
+    </div> -->
+    </div>
     <div class="row m-0">
       <div class="col-lg-4 col-md-4 col-sm-6 col-12 ps-1 pe-1 mb-3">
         <mat-form-field class="w-100 form-field">
@@ -43,6 +63,7 @@
             matInput
             formControlName="college"
             [matAutocomplete]="auto"
+            [disabled]="isCollegesEmpty()"
           />
           <mat-autocomplete
             autoActiveFirstOption
@@ -76,6 +97,9 @@
               >close</mat-icon
             >
           </button>
+          <mat-hint *ngIf="isCollegesEmpty()" class="blink_text"
+            >College Need To Be Approve...</mat-hint
+          >
         </mat-form-field>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-6 col-12 ps-1 pe-1 mb-3">

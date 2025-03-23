@@ -65,6 +65,12 @@ export class AppService {
     return this.http.get(this.baseUrl + 'college_management/colleges/');
   }
 
+  getApproveColleges(): Observable<any> {
+    return this.http.get(
+      this.baseUrl + 'college_management/colleges_is_approve/'
+    );
+  }
+
   getCollegeLoginUsers(): Observable<any> {
     return this.http.get(this.baseUrl + 'accounts/users/');
   }
@@ -150,5 +156,15 @@ export class AppService {
     return this.http.put(`${this.baseUrl}accounts/college-user/delist/${id}/`, {
       headers: this.httpHeadersencoded,
     });
+  }
+
+  uploadFile(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${this.baseUrl}accounts/upload/`, formData);
+  }
+
+  getFiles(id: any): Observable<any> {
+    return this.http.get(`${this.baseUrl}accounts/upload/${id}/`);
   }
 }

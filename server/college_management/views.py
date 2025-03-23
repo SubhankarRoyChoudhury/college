@@ -31,6 +31,18 @@ class CollegeViewSet(APIView):
         serializer = CollegeSerializer(colleges, many=True)
         # Return the serialized data as a response
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class CollegeViewIsApprove(APIView):
+    # permission_classes = [IsAuthenticated]  # Only authenticated users can access this view
+    permission_classes=[AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        # Retrieve only approved colleges
+        colleges = College.objects.filter(is_approved=True).order_by('-id')
+        # Serialize the data
+        serializer = CollegeSerializer(colleges, many=True)
+        # Return the serialized data as a response
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class CollegeDetailViewByID(APIView):
     permission_classes = [AllowAny]
