@@ -157,4 +157,14 @@ export class AppService {
       headers: this.httpHeadersencoded,
     });
   }
+
+  uploadFile(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${this.baseUrl}accounts/upload/`, formData);
+  }
+
+  getFiles(id: any): Observable<any> {
+    return this.http.get(`${this.baseUrl}accounts/upload/${id}/`);
+  }
 }

@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import CustomTokenView, CollegeUserCreateAndGetView,CollegeUserDetailViewByID, getUserDetails, CollegeUserDelistView
+from .views import CustomTokenView, CollegeUserCreateAndGetView,CollegeUserDetailViewByID, getUserDetails, CollegeUserDelistView, FileUploadView
 from . import views
 
 urlpatterns = [
@@ -13,4 +13,9 @@ urlpatterns = [
     path('users/', views.user_list, name='user_list'),
     path('users/<int:user_id>/', views.user_detail, name='user_detail'),
     path('users/<int:user_id>/update/', views.update_user, name='update_user'),
+    
+    # ### For Image Upload Section Start
+    path('upload/', FileUploadView.as_view(), name='file-upload'),
+    path('upload/<int:id>/', FileUploadView.as_view(), name='file-detail'),
+    # ### For Image Upload Section End
 ]

@@ -1,0 +1,21 @@
+<div class="upload-container">
+  <input type="file" (change)="onFileSelected($event)" />
+  <button (click)="uploadFile()" [disabled]="!selectedFile">Upload</button>
+
+  <button mat-mini-fab style="margin-left: 5px" (click)="close()">X</button>
+
+  <!-- <h3>Uploaded Files</h3>
+  <ul>
+    <li *ngFor="let file of files">
+      <span *ngIf="isImage(file.file)">
+        <img [src]="file.file" alt="Uploaded Image" width="100" />
+      </span>
+      <span *ngIf="isPDF(file.file)">
+        <a [href]="file.file" target="_blank">View PDF</a>
+      </span>
+      <span *ngIf="!isImage(file.file) && !isPDF(file.file)">
+        <a [href]="file.file" download>{{ file.file }}</a>
+      </span>
+    </li>
+  </ul> -->
+</div>

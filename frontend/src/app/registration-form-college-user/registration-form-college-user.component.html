@@ -1,8 +1,26 @@
 <body>
   <div class="wrapper">
-    <div class="logo">
-      <img src="./assets/images/login_logo.png" alt="" />
+    <div class="logo" (click)="openFileUploader()">
+      <!-- <img src="./assets/images/login_logo.png" alt="" /> -->
+      <img
+        [src]="
+          img_source
+            ? getSafeImageUrl(img_source)
+            : 'assets/images/login_logo.png'
+        "
+        alt="Uploaded Image"
+        class="uploaded-image"
+      />
+      <!-- <span
+        *ngIf="!img_source"
+        style="font-size: 10px; line-height: 12px; font-family: alatsipro"
+        >Click Here To Upload</span
+      > -->
+      <!-- <div class="attachment_btn_div" >
+        <mat-icon style="width:20px; height:20px; font-size:20px;">photo_camera</mat-icon>
+      </div> -->
     </div>
+
     <div class="text-center mt-4 mb-3 name">College User Registration Form</div>
     <form [formGroup]="regis_form" ngNativeValidate (ngSubmit)="onRegister()">
       <div class="row m-0 div_field">

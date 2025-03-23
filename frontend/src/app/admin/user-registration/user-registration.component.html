@@ -8,6 +8,7 @@
         <thead class="bg-gradient-primary text-white">
           <tr>
             <th scope="col" class="text-center">#</th>
+            <th scope="col" class="text-center">User Picture</th>
             <th scope="col" class="text-center">COLLEGE</th>
             <th scope="col" class="text-center">USERNAME</th>
             <th scope="col" class="text-center">FIRST_NAME</th>
@@ -34,6 +35,18 @@
         <tbody>
           <tr *ngFor="let clg_usr of college_users">
             <td class="text-center">{{ clg_usr.id }}</td>
+            <td class="text-center">
+              <img
+                [src]="
+                  clg_usr.img_source
+                    ? getSafeImageUrl(clg_usr.img_source)
+                    : 'assets/images/login_logo.png'
+                "
+                alt="Profile Picture"
+                class="profile-picture"
+                style="width: 80px; height: 80px"
+              />
+            </td>
             <td class="text-center">{{ clg_usr.college_name }}</td>
             <td class="text-center">{{ clg_usr.username }}</td>
             <td class="text-center">

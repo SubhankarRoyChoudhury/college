@@ -3,6 +3,10 @@ import { AppService } from './../../app.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogUserRegistrationComponent } from './dialog-user-registration/dialog-user-registration.component';
 import { DialogConfirmationComponent } from '../../shared/dialog-confirmation/dialog-confirmation.component';
+import { environment } from './../../../environments/environments';
+import { DomSanitizer } from '@angular/platform-browser';
+import { forkJoin, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 interface CollegeUser {
   id: number;
@@ -27,6 +31,7 @@ interface CollegeUser {
   state: string;
   city: string;
   pin: string;
+  attachment_id: number;
   is_admin: boolean;
   is_owner: boolean;
   is_manager: boolean;
@@ -39,9 +44,13 @@ interface CollegeUser {
   styleUrls: ['./user-registration.component.scss'],
 })
 export class UserRegistrationComponent {
-  college_users: CollegeUser[] = [];
+  college_users: any[] = [];
 
-  constructor(private appService: AppService, public dialog: MatDialog) {}
+  constructor(
+    private appService: AppService,
+    public dialog: MatDialog,
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngOnInit(): void {
     // this.appService.getCollegeLoginUsers().subscribe({
@@ -53,15 +62,33 @@ export class UserRegistrationComponent {
   }
 
   getCollegeUsers(): void {
-    this.appService.getCollegeUsers().subscribe((result) => {
-      // console.log(`Dialog result: ${result}`);
-      if (result) {
-        console.log(result);
-        if (result) {
-          this.college_users = result;
-        }
-      }
+    this.appService.getCollegeUsers().subscribe((users) => {
+      // Collect observables for fetching each user's image
+      const requests = users.map((user: any) =>
+        this.appService.getFiles(user.attachment_id).pipe(
+          map((fileResponse: any) => {
+            const img_url = fileResponse.file.slice(1);
+            const img_source = `${environment.base_url}${img_url}`;
+            return { ...user, img_source }; // Attach img_source to user
+          }),
+          catchError(() => {
+            return of({
+              ...user,
+              img_source: 'assets/images/default_profile.png',
+            }); // Default image on error
+          })
+        )
+      );
+
+      // Wait for all requests to complete and set college_users
+      forkJoin(requests).subscribe((usersWithImages: any) => {
+        this.college_users = usersWithImages;
+      });
     });
+  }
+
+  getSafeImageUrl(url: string) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   openEditCollege(collegeUserId: number) {
