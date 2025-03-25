@@ -1,0 +1,102 @@
+/* Sidebar */
+.sidebar {
+  width: 180px;
+  height: calc(100vh - 57px);
+  background: #4a7f8a;
+  color: white;
+  border-top: 1px solid #fff;
+  padding: 12px 6px;
+  margin: 0px;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Collapsed Sidebar */
+.sidebar.collapsed {
+  width: 0px; /* Shrinks Sidebar */
+  padding: 0px !important;
+}
+
+/* Sidebar Links */
+.nav-link {
+  display: flex;
+  align-items: center;
+  // justify-content: center;
+  text-align: center;
+  padding: 10px 5px;
+  color: white;
+  font-size: 14px;
+  border-radius: 6px;
+  font-family: alatsipro;
+  background-color: #759da5;
+  text-decoration: none;
+  transition: background 0.3s ease-in-out;
+}
+.nav-link:hover {
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.nav-link i {
+  font-size: 20px; /* Icons remain visible */
+  margin-right: 10px;
+}
+
+/* Hide Text When Collapsed */
+.sidebar.collapsed .nav-link span {
+  display: none;
+}
+
+/* Toggle Button */
+.toggle-btn {
+  position: fixed;
+  top: 30px;
+  left: 230px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s ease-in-out;
+}
+
+.RouterActiveLink {
+  background: #fff;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  color: #000;
+
+  .side_menu_btn_icon {
+    font-size: 27px;
+    color: #f37022;
+  }
+  .side_menu_btn_font {
+    color: #000000;
+    font-family: alatsipro;
+  }
+  i {
+    color: #000;
+  }
+}
+.nav-link i {
+  /* Optionally add spacing or adjust the icon size */
+  margin-right: 8px; /* Add some space between the icon and the text */
+  margin-left: 5px;
+}
+
+.sidebar.collapsed + .toggle-btn {
+  left: 0px;
+  padding: 0px !important;
+}
+
+/* Rotate Arrow */
+.arrow-icon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}

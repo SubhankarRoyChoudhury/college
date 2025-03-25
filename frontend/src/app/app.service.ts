@@ -6,7 +6,7 @@ import {
   HttpHeaders,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 
 // interface User {
 //   id: number;
@@ -18,6 +18,7 @@ import { Observable, catchError, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class AppService {
+  public sideNavToggleSubject: BehaviorSubject<any> = new BehaviorSubject(null);
   private baseUrl = environment.base_url;
   private httpHeaders = new HttpHeaders({
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -40,6 +41,10 @@ export class AppService {
     const token = localStorage.getItem('access_token'); // Retrieve the token from localStorage
     this.access_token = token ? token : ''; // Set access_token or default to an empty string
     console.log(this.access_token);
+  }
+
+  public toggle(): void {
+    return this.sideNavToggleSubject.next(null);
   }
 
   async openToaster(

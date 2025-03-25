@@ -57,7 +57,7 @@ export class LoginComponent {
                 location.reload();
               }, 2000);
             } else {
-              this.router.navigate(['/upload']);
+              this.router.navigate(['/user-dashboard']);
               setTimeout(() => {
                 location.reload();
               }, 2000);

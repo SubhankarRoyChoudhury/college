@@ -45,7 +45,7 @@ export class FileUploaderComponent {
   }
 
   isImage(fileUrl: string): boolean {
-    return /\.(jpg|jpeg|png|gif)$/i.test(fileUrl);
+    return /\.(jpg|jpeg|png|gif|enc)$/i.test(fileUrl);
   }
 
   isPDF(fileUrl: string): boolean {

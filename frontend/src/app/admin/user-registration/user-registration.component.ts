@@ -74,7 +74,7 @@ export class UserRegistrationComponent {
           catchError(() => {
             return of({
               ...user,
-              img_source: 'assets/images/default_profile.png',
+              img_source: 'assets/images/login_logo.png',
             }); // Default image on error
           })
         )

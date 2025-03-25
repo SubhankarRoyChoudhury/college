@@ -10,13 +10,13 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { SharedModule } from '../shared/shared.module';
-import { CollegeAllLoginUsersListComponent } from './college-all-login-users-list/college-all-login-users-list.component';
 import { MatIconModule } from '@angular/material/icon';
-import { DialogCollegeRegistrationComponent } from './college-registration/dialog-college-registration/dialog-college-registration.component';
-import { DialogUserRegistrationComponent } from './user-registration/dialog-user-registration/dialog-user-registration.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatRadioModule } from '@angular/material/radio';
+import { CollegeAllLoginUsersListComponent } from './college-all-login-users-list/college-all-login-users-list.component';
+import { DialogCollegeRegistrationComponent } from './college-registration/dialog-college-registration/dialog-college-registration.component';
+import { DialogUserRegistrationComponent } from './user-registration/dialog-user-registration/dialog-user-registration.component';
 
 @NgModule({
   declarations: [
@@ -38,8 +38,10 @@ import { MatRadioModule } from '@angular/material/radio';
     MatFormFieldModule,
     SharedModule,
     MatIconModule,
+    SharedModule,
     MatAutocompleteModule,
     MatRadioModule,
+    SharedModule,
   ],
 })
 export class AdminModule {}

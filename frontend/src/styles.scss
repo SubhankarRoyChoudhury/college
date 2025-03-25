@@ -36,3 +36,8 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+@font-face {
+  font-family: alatsipro;
+  src: url(./assets/fonts/SourceCodePro-Medium.ttf);
+}

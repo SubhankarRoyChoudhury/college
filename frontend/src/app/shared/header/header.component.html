@@ -1,0 +1,36 @@
+<div
+  class="d-flex align-items-center justify-content-between"
+  style="height: 50px; background-color: #e7ecf7"
+>
+  <div class="d-flex align-items-center p-2">
+    <div class="ms-2 me-2" *ngIf="!isSuperUser">
+      <!-- <span class="header_title">{{ title }}</span> -->
+      <button mat-mini-fab (click)="clickMenu()">
+        <mat-icon>notes</mat-icon>
+      </button>
+    </div>
+    <div class="ms-2">
+      <span class="header_title">{{ title }}</span>
+    </div>
+  </div>
+  <div class="d-flex align-items-center p-2">
+    <button
+      mat-raised-button
+      class="btn_class"
+      *ngIf="showAddUserButton"
+      (click)="openAddUser()"
+    >
+      Add User
+    </button>
+
+    <!-- Show Add College button for /college-registration -->
+    <button
+      mat-raised-button
+      class="btn_class"
+      *ngIf="showAddCollegeButton"
+      (click)="openAddCollege()"
+    >
+      Add College
+    </button>
+  </div>
+</div>

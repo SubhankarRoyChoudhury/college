@@ -1,0 +1,21 @@
+<div class="matDrawer" style="margin: 0px; height: calc(100vh - 56px)">
+  <!-- <app-navbar></app-navbar> -->
+
+  <mat-drawer-container
+    style="height: calc(100vh - 56px)"
+    class="example-container"
+    autosize
+  >
+    <mat-drawer
+      #drawer
+      class="example-sidenav"
+      [mode]="this.mode"
+      [opened]="this.sidebar_opened"
+      style="text-align: center"
+    >
+      <app-sidebar></app-sidebar>
+    </mat-drawer>
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+  </mat-drawer-container>
+</div>

@@ -17,11 +17,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ToasterComponent } from './toaster/toaster.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DialogCommonHeaderComponent } from './dialog-common-header/dialog-common-header.component';
+import { HeaderComponent } from './header/header.component';
 @NgModule({
   declarations: [
     DialogCommonHeaderComponent,
     DialogConfirmationComponent,
     ToasterComponent,
+    HeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +42,6 @@ import { DialogCommonHeaderComponent } from './dialog-common-header/dialog-commo
     MatSelectModule,
     MatTooltipModule,
   ],
-  exports: [DialogCommonHeaderComponent],
+  exports: [DialogCommonHeaderComponent, HeaderComponent],
 })
 export class SharedModule {}

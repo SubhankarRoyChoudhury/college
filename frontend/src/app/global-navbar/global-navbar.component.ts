@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { DialogConfirmationComponent } from '../shared/dialog-confirmation/dialog-confirmation.component';
+import { environment } from './../../environments/environments';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 export interface UserDetails {
   username: string;
@@ -30,9 +32,14 @@ export class GlobalNavbarComponent implements OnInit {
   isProfileMenuVisible = false;
   isLoggedIn = false;
   isSuperUser: boolean = false;
+
+  img_url: any;
+  img_source: any;
+
   constructor(
     private AppService: AppService,
     public authService: AuthService,
+    private sanitizer: DomSanitizer,
     private router: Router,
     public dialog: MatDialog,
     private ngZone: NgZone
@@ -77,11 +84,28 @@ export class GlobalNavbarComponent implements OnInit {
       this.authService.getUserDetails(username).subscribe((data) => {
         if (data?.response) {
           this.userDetails = data.response as UserDetails;
+          console.log(this.userDetails, data.response.attachment_id);
+          this.getImageUrl(data.response.attachment_id);
         } else {
           this.userDetails = null;
         }
       });
     }
+  }
+
+  getImageUrl(id: any) {
+    this.AppService.getFiles(id).subscribe((e) => {
+      console.log(e);
+      this.img_url = e.file.slice(1);
+      // ✅ Construct full image URL
+      let base_url = environment.base_url;
+      // const hostname = base_url.replace(/\/api\/$/, '');
+      this.img_source = base_url + this.img_url;
+      console.log('Updated img_source:', this.img_source);
+    });
+  }
+  getSafeImageUrl(url: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   logout(): void {
