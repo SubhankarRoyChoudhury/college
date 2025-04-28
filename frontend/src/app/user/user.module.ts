@@ -19,6 +19,7 @@ import { ClassDetailsComponent } from './class-details/class-details.component';
 import { FeesStructureListComponent } from './fees-structure-list/fees-structure-list.component';
 import { StudentListComponent } from './student-list/student-list.component';
 import { ClassDashboardComponent } from './class-dashboard/class-dashboard.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,8 @@ import { ClassDashboardComponent } from './class-dashboard/class-dashboard.compo
     MatRadioModule,
     MatSidenavModule,
     SharedModule,
+
+    MatExpansionModule,
   ],
 })
 export class UserModule {}

@@ -1,7 +1,7 @@
 /* Sidebar */
 .sidebar {
-  width: 180px;
-  height: calc(100vh - 57px);
+  width: 220px;
+  height: calc(100vh - 56px);
   background: #4a7f8a;
   color: white;
   border-top: 1px solid #fff;
@@ -64,10 +64,10 @@
 }
 
 .RouterActiveLink {
-  background: #fff;
+  background: #fff !important;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   border-radius: 6px;
-  color: #000;
+  color: #000 !important;
 
   .side_menu_btn_icon {
     font-size: 27px;
@@ -99,4 +99,38 @@
 
 .rotate {
   transform: rotate(180deg);
+}
+
+.fa-solid {
+  font-weight: 900;
+  font-size: 20px;
+}
+::ng-deep .mat-expansion-panel-header {
+  padding: 0px 15px !important;
+  background-color: #759da5 !important;
+  color: #ffffff !important;
+  border-radius: 6px 6px 0px 0px !important;
+}
+::ng-deep .mat-expansion-indicator::after {
+  color: #ffffff !important;
+}
+
+::ng-deep .mat-expansion-panel {
+  border-radius: 6px !important;
+}
+::ng-deep .mat-expansion-panel-body {
+  padding: 5px 12px 20px !important;
+  background-color: #759da5 !important;
+}
+
+::ng-deep .mat-expansion-panel-header.mat-expanded {
+  background-color: #759da5 !important;
+}
+
+::ng-deep .mat-expansion-panel-body {
+  transition: max-height 0.5s ease-in-out; /* Adjust 0.5s to any duration you prefer */
+}
+
+::ng-deep .mat-expansion-panel {
+  transition: margin 0.5s ease-in-out; /* This can smooth the margin application */
 }
